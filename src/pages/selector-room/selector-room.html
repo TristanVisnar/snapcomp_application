@@ -1,0 +1,51 @@
+<!--
+  Generated template for the SelectorRoomPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Room Name</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content align="center" padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card>
+    <ion-card-title>
+      Tristan123
+    </ion-card-title>
+
+    <p><font size="4px">Points: 6</font></p>
+    <!--<p><font size="4px">test: {{textPassed}}</font></p>-->
+
+    <img [src]="textPassed" *ngIf="textPassed" />
+  </ion-card>
+
+  <!--<ion-card>
+    <ion-card-title>
+      DžejDžej
+    </ion-card-title>
+
+    <p><font size="4px">Points: 3</font></p>
+
+    <img src="http://www.theamazingpics.com/wp-content/uploads/2014/03/Amazing-Picture-of-a-Lavender-Field-at-Sunset-By-Tomas-Vocelka.jpg"/>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-title>
+      Kevin123
+    </ion-card-title>
+
+    <p><font size="4px">Points: 4</font></p>
+
+    <img src="http://7bna.net/images/picture/picture-37.jpg"/>
+  </ion-card>-->
+</ion-content>

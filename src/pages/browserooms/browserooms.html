@@ -1,0 +1,55 @@
+<!--
+  Generated template for the BrowseroomsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $( "#SafeForWorkButton" ).on( "click", function() {
+    $("body").css("background-color","blue").innerHTML("NSFW");
+    });
+  </script>
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Browse Rooms</ion-title>
+    <ion-buttons end>
+      <button style="height:40px; width:40px" align="center" ion-button color="dark"><ion-icon style="font-size:30px" name="md-settings"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <!--<button ion-item>
+      <b>ROOM: </b><span class="labelStyle">Room123</span><b>N: </b><span style="labelStyle">1/10</span>
+    </button>
+    <button ion-item>
+      <b>ROOM: </b><span class="labelStyle">User's Room</span><b>N: </b><span style="labelStyle">6/10</span><ion-icon style="margin-left:30px;" md="md-lock"></ion-icon>
+    </button>
+    <button ion-item>
+      <b>ROOM: </b><span class="labelStyle">JanezRoom</span><b>N: </b><span style="labelStyle">10/10</span>
+    </button>
+    <button ion-item>
+      <b>ROOM: </b><span class="labelStyle">randroom</span><b>N: </b><span style="labelStyle">5/10</span><ion-icon style="margin-left:30px;" md="md-lock"></ion-icon>
+    </button>-->
+    <button ion-item *ngFor="let result of results">
+      <b>ROOM: </b><span class="labelStyle">{{ result.NAME }}</span><b>N: </b><span style="labelStyle">10/10</span>
+    </button>
+  </ion-list>
+  <!--<ul>
+    <li *ngFor="let result of results">
+      {{ result.NAME }}
+    </li>
+  </ul>-->
+</ion-content>
+
+<ion-footer align="center" no-border>
+  <ion-toolbar>
+    <ion-buttons>
+      <button id="SafeForWorkButton" ion-button style="background-color:#ff1a1a; color:white;">SFW</button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

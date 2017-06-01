@@ -1,0 +1,10 @@
+{
+  "name": "snapcomp",
+  "app_id": "",
+  "type": "ionic-angular",
+  "proxies":
+    [{
+        "path": "/api.php",
+        "proxyUrl": "http://164.8.230.124/tmp/snapcomp/api.php"
+    }]
+}

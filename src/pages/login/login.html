@@ -1,0 +1,65 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>SnapComp</ion-title>
+    <ion-buttons end>
+      <button style="height:40px; width:40px" align="center" ion-button color="dark"><ion-icon style="font-size:30px" name="md-settings"></ion-icon></button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content align="center" padding>
+  <div class="" style="text-align:center;">
+    <!--<label><font size="5px">Welcome to SnapComp</font></label>-->
+    <h1>Welcome to SnapComp!</h1>
+  </div>
+  <br>
+  <!--<button class="menubutton" ion-button color="light" (click)="showPrompt()">Login</button><br><br>-->
+  <div class="login-box">
+    <form (ngSubmit)="login()" #registerForm="ngForm">
+      <ion-row>
+        <ion-col>
+          <h2>Login</h2>
+
+          <ion-list inset>
+
+            <ion-item>
+              <ion-input type="text" placeholder="Account Name" name="ACCNAME" [(ngModel)]="regCredentials.accname" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input type="password" placeholder="Password" name="PASSWORD" [(ngModel)]="regCredentials.pass" required></ion-input>
+            </ion-item>
+
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+      <button ion-button class="submit-btn" full type="submit">Login</button>
+    </form>
+
+  </div>
+
+  <br>
+
+  <button class="menubutton" ion-button color="light" onclick="window.open('http://164.8.230.124/tmp/snapcomp/?controller=pages&action=register', '_system', 'location=yes'); return false;">Register</button><br><br>
+  <button class="menubutton" ion-button color="light" (click)="winningPicsPageRedirect()">Browse</button><br>
+
+  <hr>
+  <label> testing buttons </label>
+  <hr>
+
+  <button class="menubutton" ion-button color="light" (click)="redirect()">Main Menu</button><br>
+  <button class="menubutton" ion-button color="light" (click)="redirect2()">Room</button><br>
+  <!--<button class="menubutton" ion-button color="light" (click)="pic()">Camera</button><br>-->
+  <button class="menubutton" ion-button color="light" (click)="redirect3()">Selector Room</button><br>
+  <button class="menubutton" ion-button color="light" (click)="redirect4()">Theme Select</button><br>
+</ion-content>

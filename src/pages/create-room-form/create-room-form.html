@@ -1,0 +1,71 @@
+<!--
+  Generated template for the CreateRoomFormPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $('#PRIVATE private').each(function() {
+    if(this.selected)
+    {
+      $("#PRIVATE").prop('disabled', false);
+    }
+
+    else
+    {
+      $("#PRIVATE").prop('disabled', true);
+    }
+  });
+</script>
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Create New Room</ion-title>
+    <ion-buttons end>
+      <button style="height:40px; width:40px" align="center" ion-button color="dark"><ion-icon style="font-size:30px" name="md-settings"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+
+    <ion-item>
+      <ion-label style="width:148px">Room Name:</ion-label>
+      <ion-input type="text" value=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="width:148px">Session Duration (s):</ion-label>
+      <ion-input type="number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+       <ion-label>Room Type:</ion-label>
+       <ion-select [(ngModel)]="type">
+         <ion-option name="SFW" value="sfw">Safe For Work (SFW)</ion-option>
+         <ion-option name="NSFW" value="nsfw">Not Safe For Work (NSFW)</ion-option>
+         <!--<ion-option name="ANY" value="any">Any</ion-option>-->
+       </ion-select>
+     </ion-item>
+
+     <ion-item>
+        <ion-label>Room Protection:</ion-label>
+        <ion-select [(ngModel)]="protection">
+          <ion-option name="PUBLIC" value="public">Public</ion-option>
+          <ion-option name="PRIVATE" id="PRIVATE" ng-model="selected" value="private">Private</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="width:148px">Password: </ion-label>
+        <ion-input id="PASS" type="password" disabled="false"></ion-input>
+      </ion-item>
+
+  </ion-list>
+
+  <button ion-button color="default">Create Room&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
+</ion-content>

@@ -7,6 +7,7 @@ import { SelectorRoomPage } from '../selector-room/selector-room';
 import { WinningpicsPage } from '../winningpics/winningpics';
 import { ThemeSelectPage } from '../theme-select/theme-select';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { User } from '../../providers/auth-service/auth-service';
 
 
 /**
@@ -25,6 +26,8 @@ export class LoginPage {
   //public base64Image: string;
   loading: Loading;
   regCredentials = { accname: '', pass: '' };
+  public username: String;
+  public accname: String;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthServiceProvider, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
   }
@@ -33,15 +36,28 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
+/*  public openPage()
+  {
+    this.navCtrl.push(SelectorRoomPage);
+  }
+*/
   public login()
   {
+    var uporJson: String;
     console.log("0: "+ JSON.stringify(this.regCredentials));
-    //this.showLoading();
-    var retrn: String;
-    retrn = this.auth.login(this.regCredentials);
-    console.log(retrn);
-
-
+    this.auth.login(this.regCredentials).subscribe(result => {
+            //return JSON.stringify(result);
+            //console.log("SUBSCIRE: "+ JSON.stringify(result));//TU VRNE PODATKE O USERU KI JE LOGINAN
+              this.accname = result.ACCNAME;
+              this.username = result.USERNAME;
+              this.navCtrl.push(MainMenuPage, {aname:this.accname, uname:this.username});
+              //{testpass:this.base64Image}
+            //this.rerouteTologin(JSON.stringify(result));
+            //this.results = "tardedtypescript"; //TEGA NEA SHRANI V PUBLIC RESULTS; AMPAK REZULTAT VRNE
+          },
+        );
+    console.log("0UPORA: "+uporJson);
+    this.showLoading();
 
     /*.subscribe(allowed => {
       if(allowed)
@@ -61,7 +77,7 @@ export class LoginPage {
     });*/
   }
 
-  /*public showLoading()
+  public showLoading()
   {
     this.loading = this.loadingCtrl.create({
       content: 'Logging you in...',
@@ -69,11 +85,13 @@ export class LoginPage {
     });
 
     this.loading.present();
-  }*/
-
+  }
+  public dismissLoader(){
+    this.loading.dismiss();
+  }
   showError(text)
   {
-    //this.loading.dismiss();
+    this.loading.dismiss();
 
     let alert = this.alertCtrl.create({
       title: "Failed",

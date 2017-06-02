@@ -36,24 +36,32 @@ export class LoginPage {
   public login()
   {
     console.log("0: "+ JSON.stringify(this.regCredentials));
-    this.showLoading();
-    this.auth.login(this.regCredentials).subscribe(allowed => {
+    //this.showLoading();
+    var retrn: String;
+    retrn = this.auth.login(this.regCredentials);
+    console.log(retrn);
+
+
+
+    /*.subscribe(allowed => {
       if(allowed)
       {
+        console.log("Main menu set");
         this.navCtrl.setRoot(MainMenuPage);
       }
 
       else
       {
+        console.log("Else set");
         this.showError("Wrong Account Name or Password.");
       }
 
     }, error => {
       this.showError(error);
-    });
+    });*/
   }
 
-  public showLoading()
+  /*public showLoading()
   {
     this.loading = this.loadingCtrl.create({
       content: 'Logging you in...',
@@ -61,11 +69,11 @@ export class LoginPage {
     });
 
     this.loading.present();
-  }
+  }*/
 
   showError(text)
   {
-    this.loading.dismiss();
+    //this.loading.dismiss();
 
     let alert = this.alertCtrl.create({
       title: "Failed",

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Jsonp } from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
@@ -26,19 +26,20 @@ export class User {
 export class AuthServiceProvider {
 
   currentUser: User;
-  public results: Array<Object>;
+  public results: any;
 
   constructor(public http: Http) {
     console.log('Hello AuthServiceProvider Provider');
   }
 
-  public login(logInfo)
+  public login(logInfo) : String
   {
 
     if(logInfo.accname === "" || logInfo.pass === "")
     {
       console.log("1");
-      return Observable.throw("Empty account name or password.");
+      //return Observable.throw("Empty account name or password.");
+      return "emptyString";
     }
 
     else
@@ -46,19 +47,35 @@ export class AuthServiceProvider {
       console.log("2: "+ JSON.stringify(logInfo));
 
       //console.log("2: "+ logInfo);
-      return Observable.create(observer => {
-        var response:Response;
+      /*return Observable.create(observer => {
+        //var response:Response;
         this.http.post('http://164.8.230.124/tmp/snapcomp/api.php/users/', JSON.stringify(logInfo))
           .map(response => response.json())
-          .subscribe(result => this.results = result);
-
+          .subscribe(result => {
+                console.log("SUBSCIRE: "+ JSON.stringify(result));
+                this.results = result;
+          });//console.log("3: " + JSON.stringify(result)));//this.results = result)
+          //console.log("3: " + this.results);
         //let access = (logInfo.PASSWORD ===  && logInfo.ACCNAME === "accname");
 
         //this.currentUser = new User(this.results[1].toString(),this.results[2].toString());
-        console.log(JSON.stringify(response));
+        //console.log("3: " + this.results.toString());
         //observer.next(access);
         observer.complete();
-      });
+
+      });*/
+
+      this.http.post('http://164.8.230.124/tmp/snapcomp/api.php/users/', JSON.stringify(logInfo))
+        .map(response => response.json())
+        .subscribe(result => {
+              return JSON.stringify(result);
+              //console.log("SUBSCIRE: "+ JSON.stringify(result));//TU VRNE PODATKE O USERU KI JE LOGINAN
+              //this.results = JSON.stringify(result);
+              //this.results = "tardedtypescript"; //TEGA NEA SHRANI V PUBLIC RESULTS; AMPAK REZULTAT VRNE
+            });
+
+        //console.log(this.results);
+        return this.results;
     }
   }
 

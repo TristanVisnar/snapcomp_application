@@ -39,16 +39,16 @@ export class CreateRoomFormPage {
       NSFWROOM: nsfwroom,
       PASSWORD: pass
     };
+    console.log(JSON.stringify(jsonString));
     this.http.post('http://164.8.230.124/tmp/snapcomp/api.php/rooms/createRoom', JSON.stringify(jsonString))
       .map(response => response.json())
       .subscribe(result => {
-
               this.creationData = new RoomData(result.ID ,name, idcreator, privroom, nsfwroom, pass);
               this.getSuggestionData();
               //this.user1 = new User(result.ID, result.ACCNAME, result.USERNAME, result.NUMOFPOSTS, result.NUMOFWINS, result.ROLE);
               //this.navCtrl.push(ThemeSelectPage, {roomdata: this.creationData});
           },
-          Error => console.log("Room creation Error")
+          Error => console.log("Room coulndt be created: "+Error)
         );
   }
   public zuggzugg: any;
@@ -72,7 +72,7 @@ export class CreateRoomFormPage {
               //console.log("THe show must stop");
               this.navCtrl.push(ThemeSelectPage, {roomdata: this.creationData, suggArray: this.suggArray, user1: this.user1});
           },
-          Error => console.log("Room creation Error")
+          Error => console.log("Suggestion retrieve error")
         );
   }
 }

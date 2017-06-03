@@ -18,7 +18,7 @@
 
     <ion-item>
      <ion-label stacked>Type in the theme for the next round:</ion-label>
-     <ion-input #TypedSuggestion value="" type="text">{{sel.value}}</ion-input>
+     <ion-input #TypedSuggestion value="" type="text"></ion-input>
     </ion-item>
 
   <ion-item>
@@ -32,11 +32,11 @@
 
   <ion-item>
     <ion-label stacked>Session Duration (s):</ion-label>
-    <ion-input type="number"></ion-input>
+    <ion-input #duration type="number"></ion-input>
   </ion-item>
 
   <br>
 
-  <button (click)="redirectToRoom(selectedSuggestion, TypedSuggestion)" type="button" ion-button round color="default">Confirm&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
+  <button (click)="redirectToRoom(selectedSuggestion.value, TypedSuggestion.value, duration.value)" type="button" ion-button round color="default">Confirm&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
 
 </ion-content>

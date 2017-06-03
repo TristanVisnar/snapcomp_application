@@ -14,32 +14,19 @@
 
 
 <ion-content padding>
-  <ion-item>
-   <ion-label stacked>Type in the theme for the next round:</ion-label>
-   <ion-input type="text"></ion-input>
-  </ion-item>
+
+
+    <ion-item>
+     <ion-label stacked>Type in the theme for the next round:</ion-label>
+     <ion-input #TypedSuggestion value="" type="text">{{sel.value}}</ion-input>
+    </ion-item>
 
   <ion-item>
     <ion-label stacked>Or choose one from the list:</ion-label>
-    <ion-select [(ngModel)]="theme">
-      <ion-option>parsed themes</ion-option>
-      <ion-option>parsed themes1</ion-option>
-      <ion-option>parsed themes2</ion-option>
-      <ion-option>parsed themes3</ion-option>
-      <ion-option>parsed themes4</ion-option>
-      <ion-option>parsed themes5</ion-option>
-      <ion-option>parsed themes6</ion-option>
-      <ion-option>parsed themes7</ion-option>
-      <ion-option>parsed themes8</ion-option>
-      <ion-option>parsed themes9</ion-option>
-      <ion-option>parsed themes10</ion-option>
-      <ion-option>parsed themes11</ion-option>
-      <ion-option>parsed themes12</ion-option>
-      <ion-option>parsed themes13</ion-option>
-      <ion-option>parsed themes14</ion-option>
-      <ion-option>parsed themes15</ion-option>
-      <ion-option>parsed themes16</ion-option>
-      <ion-option>parsed themes17</ion-option>
+    <ion-select #selectedSuggestion value="">
+      <ion-option *ngFor="let sug of suggestionArray">
+        {{sug.INFO}}
+      </ion-option>
     </ion-select>
   </ion-item>
 
@@ -50,6 +37,6 @@
 
   <br>
 
-  <button type="button" ion-button round color="default">Confirm&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
+  <button (click)="redirectToRoom(selectedSuggestion, TypedSuggestion)" type="button" ion-button round color="default">Confirm&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
 
 </ion-content>

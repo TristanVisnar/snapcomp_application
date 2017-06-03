@@ -14,20 +14,18 @@
 
 
 <ion-content align="center" padding>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
+  <!--<ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+  </ion-refresher>-->
 
-  <ion-card>
-    <ion-card-title>
-      Tristan123
-    </ion-card-title>
 
-    <p><font size="4px">Points: 6</font></p>
-    <!--<p><font size="4px">test: {{textPassed}}</font></p>-->
+  <ion-card *ngFor="let result of slike" height>
+    <img src="data:image/png;base64,{{result.CONTENT}}" class="photo" />
+    <ion-card-content>
 
-    <img [src]="textPassed" *ngIf="textPassed" />
+    </ion-card-content>
   </ion-card>
+
 
   <!--<ion-card>
     <ion-card-title>

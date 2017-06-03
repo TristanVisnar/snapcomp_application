@@ -19,7 +19,7 @@ import 'rxjs/add/operator/map';
 export class RoomPage {
 
   public base64Image: string;
-  public feedback:string;
+  public feedback:Object;
   //public base64Data:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public camera: Camera, public http: Http, public json: Jsonp) {
@@ -27,6 +27,13 @@ export class RoomPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RoomPage');
+  }
+
+  isSet(obj){
+    if(obj == null || obj == ""){
+      return false;
+    }
+    return true;
   }
 
   pic()
@@ -37,8 +44,9 @@ export class RoomPage {
       correctOrientation: true
     }).then((ImageData) => {
       //this.base64Data = ImageData;
-      this.base64Image =  ImageData;
-      this.navCtrl.push(RoomPage, {testpass: "data:image/png;base64," + this.base64Image});
+      this.base64Image = ImageData;
+
+      //this.navCtrl.push(RoomPage, {testpass: "data:image/png;base64," + this.base64Image});
     }, (err) => {
       console.log(err);
     });
@@ -47,10 +55,11 @@ export class RoomPage {
   posljiSliko(){
     let headers = new Headers({ 'Content-Type': 'application/json' });
     //$input->ID_USER,$input->ID_SESSION,$input->CONTENT,$input->ID_SUGGESTION,$input->longitude,$input->latitude
-    var data = JSON.stringify({"ID_USER": 1 ,"ID_SESSION": 2 , "CONTENT": this.base64Image+"" , "ID_SUGGESTION": 4, "longitude": 10.12, "latitude": 3.23  });
-    this.http.post("http://164.8.230.124/tmp/snapcomp/api.php/images/0/", data , headers).subscribe(
-      data=> this.feedback = JSON.stringify(data),
-      error=> this.feedback = "Napaka pri vzpostavitvi povezave - app"
+    var data = JSON.stringify({"ID_USER": 1 ,"ID_SESSION": 2 , "CONTENT": this.base64Image , "ID_SUGGESTION": 4, "longitude": 10.12, "latitude": 3.23  });
+    this.http.post("http://164.8.230.124/tmp/snapcomp/api.php/images/0/", data , headers)
+    .subscribe(
+      data=> this.feedback = "Successfully commited",
+      error=> this.feedback = "Connection error"
     );
   }
 }

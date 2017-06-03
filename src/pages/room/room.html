@@ -32,8 +32,8 @@
       <b>Username: </b><span class="labelStyle">Tristan123</span><b>Points: </b><span style="labelStyle">1</span>
     </span>
   </ion-list>
-
+    <img *ngIf="isSet(base64Image)" src="data:image/png;base64,{{base64Image}}" class="photo" />
   <button type="button" ion-button round color="default" (click)="pic()">Take picture&nbsp;&nbsp;<ion-icon name="aperture"></ion-icon></button>
-  <button type="button" ion-button round color="default" (click)="posljiSliko()">Commit picture&nbsp;&nbsp;<!--<ion-icon name="aperture"></ion-icon>--></button>
-
+  <button *ngIf="isSet(base64Image)" type="button" ion-button round color="default" (click)="posljiSliko()">Commit picture&nbsp;&nbsp;<!--<ion-icon name="aperture"></ion-icon>--></button>
+  <span *ngIf="isSet(feedback)">{{feedback}}</span>
 </ion-content>

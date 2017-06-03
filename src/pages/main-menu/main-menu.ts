@@ -17,21 +17,26 @@ import { LoginPage } from '../login/login';
 })
 export class MainMenuPage {
 
-  username = '';
-  accname = '';
+  //username = '';
+  //accname = '';
+  public uAccName;
+  public uUserName;
+
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthServiceProvider) {
-    let info = this.auth.getUserInfo();
+  /*  let info = this.auth.getUserInfo();
     this.username = info['USERNAME'];
-    this.accname = info['ACCNAME'];
+    this.accname = info['ACCNAME'];*/
+    this.uUserName = navParams.get("uname");
+    this.uAccName = navParams.get("aname");
   }
 
-  public logout() {
+/*  public logout() {
     this.auth.logout().subscribe(succ => {
       this.navCtrl.setRoot(LoginPage)
     });
-  }
+  }*/
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MainMenuPage');

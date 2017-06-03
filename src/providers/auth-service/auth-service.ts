@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Jsonp } from '@angular/http';
 import {Observable} from 'rxjs/Observable';
+import { LoginPage } from '../../pages/login/login';
 import 'rxjs/add/operator/map';
 
 /*
@@ -26,19 +27,25 @@ export class User {
 export class AuthServiceProvider {
 
   currentUser: User;
-  public results: Array<Object>;
+  public results: any;
 
-  constructor(public http: Http) {
+  constructor(public http: Http,) {
     console.log('Hello AuthServiceProvider Provider');
   }
 
-  public login(logInfo)
+  /*public rerouteTologin(info){
+    this.logpage.dismissLoader();
+    console.log("REROUTER: "+ info);
+    this.logpage.openPage();
+  }*/
+  public login(logInfo): Observable<User>
   {
 
     if(logInfo.accname === "" || logInfo.pass === "")
     {
       console.log("1");
-      return Observable.throw("Empty account name or password.");
+      //return Observable.throw("Empty account name or password.");
+      //return "emptyString";
     }
 
     else
@@ -46,19 +53,23 @@ export class AuthServiceProvider {
       console.log("2: "+ JSON.stringify(logInfo));
 
       //console.log("2: "+ logInfo);
-      return Observable.create(observer => {
-        var response:Response;
+      /*return Observable.create(observer => {
+        //var response:Response;
         this.http.post('http://164.8.230.124/tmp/snapcomp/api.php/users/', JSON.stringify(logInfo))
           .map(response => response.json())
-          .subscribe(result => this.results = result);
-
-        //let access = (logInfo.PASSWORD ===  && logInfo.ACCNAME === "accname");
-
+          //console.log("3: " + JSON.stringify(result)));//this.results = result)
+          //console.log("3: " + this.results);
+        //let access = (logInfo.PASSWORD ===  && logInfo.ACCNAME === "accname")
         //this.currentUser = new User(this.results[1].toString(),this.results[2].toString());
-        console.log(JSON.stringify(response));
+        //console.log("3: " + this.results.toString());
         //observer.next(access);
         observer.complete();
-      });
+
+      });*/
+        //console.log(this.results);
+
+        return this.http.post('http://164.8.230.124/tmp/snapcomp/api.php/users/', JSON.stringify(logInfo))
+          .map(response => response.json());
     }
   }
 

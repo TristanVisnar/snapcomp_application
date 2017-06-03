@@ -17,11 +17,11 @@ import 'rxjs/add/operator/map';
 export class WinningpicsPage {
   public slike: Array<Object>;
   public results: Array<Object>;
-  public index: number = 1;
+  public index: number = 0;
   public stSlik: number = 15;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public http: Http, public json: Jsonp) {
-      http.get('http://164.8.230.124/tmp/snapcomp/api.php/images/0/top/1/1/'+this.stSlik+'/')
+      http.get('http://164.8.230.124/tmp/snapcomp/api.php/images/0/top/1/0/'+this.stSlik+'/')
         .map(response => response.json())
         .subscribe(result => JSON.stringify(this.slike = result));
       this.index += this.stSlik;

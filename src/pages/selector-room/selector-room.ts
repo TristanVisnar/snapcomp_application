@@ -17,6 +17,7 @@ import 'rxjs/add/operator/map';
 })
 export class SelectorRoomPage {
 
+  public feedback:string;
   public textPassed: string;
   public slike: Array<Object>;
 
@@ -34,6 +35,24 @@ export class SelectorRoomPage {
     }
     return true;
   }
+
+  setFocus(obj){
+  }
+
+  submitPic(ID){
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+
+    //$input->ID_SESSION,$input->ID_PICTURE
+    var data = JSON.stringify({"ID_PICTURE": ID ,"ID_SESSION": 2 });
+
+    this.http.post("http://164.8.230.124/tmp/snapcomp/api.php/images/1/", data , headers)
+    .subscribe(
+      data=> this.feedback = JSON.stringify(data)
+      //error=> this.feedback = "Connection error"
+    );
+  }
+
+
 
 
   ionViewDidLoad() {

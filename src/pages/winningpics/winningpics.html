@@ -14,14 +14,15 @@
 
 
 <ion-content padding>
-  <ion-card height>
+  <ion-card *ngFor="let result of slike" height>
     <ion-card-title>
-      Theme
+      {{result.INFO}}
     </ion-card-title>
 
-    <img src="http://www.graphics99.com/wp-content/uploads/2012/12/Glorious-Evening-Picture.jpg"/>
+    <img src="data:image/png;base64,{{result.CONTENT}}" class="photo" />
     <ion-card-content>
 
     </ion-card-content>
   </ion-card>
+  <button class="button button-icon" (click)="newImages()" >More</button>
 </ion-content>

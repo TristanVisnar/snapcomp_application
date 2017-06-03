@@ -5,6 +5,6 @@
   "proxies":
     [{
         "path": "/api",
-        "proxyUrl": "http://164.8.230.124/tmp/snapcomp/api"
+        "proxyUrl": "http://164.8.230.124/tmp/snapcomp/api.php"
     }]
 }

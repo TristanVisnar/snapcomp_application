@@ -3,6 +3,7 @@ import { Http, Jsonp } from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { LoginPage } from '../../pages/login/login';
 import 'rxjs/add/operator/map';
+import { User } from '../../user';
 
 /*
   Generated class for the AuthServiceProvider provider.
@@ -11,7 +12,7 @@ import 'rxjs/add/operator/map';
   for more info on providers and Angular 2 DI.
 */
 
-export class User {
+/*export class User {
   ACCNAME: string;
   USERNAME: string;
 
@@ -21,12 +22,12 @@ export class User {
     this.ACCNAME = ACCNAME;
     this.USERNAME = USERNAME;
   }
-}
+}*/
 
 @Injectable()
 export class AuthServiceProvider {
 
-  currentUser: User;
+  //currentUser: User;
   public results: any;
 
   constructor(public http: Http,) {
@@ -73,17 +74,17 @@ export class AuthServiceProvider {
     }
   }
 
-  public getUserInfo() : User
+  /*public getUserInfo() : User
   {
     return this.currentUser;
-  }
+  }*/
 
-  public logout()
+  /*public logout()
   {
     return Observable.create(observer => {
       this.currentUser = null;
       observer.next(true);
       observer.complete();
     });
-  }
+  }*/
 }

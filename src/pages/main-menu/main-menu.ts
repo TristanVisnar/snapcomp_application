@@ -19,8 +19,7 @@ export class MainMenuPage {
 
   //username = '';
   //accname = '';
-  public uAccName;
-  public uUserName;
+  public logUser;
 
 
 
@@ -28,8 +27,7 @@ export class MainMenuPage {
   /*  let info = this.auth.getUserInfo();
     this.username = info['USERNAME'];
     this.accname = info['ACCNAME'];*/
-    this.uUserName = navParams.get("uname");
-    this.uAccName = navParams.get("aname");
+    this.logUser = navParams.get("loggedUser");
   }
 
 /*  public logout() {
@@ -49,6 +47,6 @@ export class MainMenuPage {
 
   redirectCreate()
   {
-    this.navCtrl.push(CreateRoomFormPage);
+    this.navCtrl.push(CreateRoomFormPage, {user1: this.logUser});
   }
 }

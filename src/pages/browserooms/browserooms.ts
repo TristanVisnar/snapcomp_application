@@ -20,7 +20,7 @@ export class BrowseroomsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public json: Jsonp)
   {
-    http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/roomData/0/0')
+    http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/roomsData/0/0')
       .map(response => response.json())
       .subscribe(result => this.results = result);
   }

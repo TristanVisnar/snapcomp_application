@@ -7,7 +7,7 @@ import { SelectorRoomPage } from '../selector-room/selector-room';
 import { WinningpicsPage } from '../winningpics/winningpics';
 import { ThemeSelectPage } from '../theme-select/theme-select';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
-import { User } from '../../providers/auth-service/auth-service';
+import { User } from '../../user';
 
 
 /**
@@ -24,10 +24,15 @@ import { User } from '../../providers/auth-service/auth-service';
 export class LoginPage {
 
   //public base64Image: string;
+
   loading: Loading;
   regCredentials = { accname: '', pass: '' };
-  public username: String;
+  /*public username: String;
   public accname: String;
+  public numofwins: Number;
+  public numofposts: Number;
+  public role: Number;*/
+  user1: User;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthServiceProvider, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
   }
@@ -43,20 +48,23 @@ export class LoginPage {
 */
   public login()
   {
-    var uporJson: String;
+    //var uporJson: String;
     console.log("0: "+ JSON.stringify(this.regCredentials));
     this.auth.login(this.regCredentials).subscribe(result => {
             //return JSON.stringify(result);
             //console.log("SUBSCIRE: "+ JSON.stringify(result));//TU VRNE PODATKE O USERU KI JE LOGINAN
-              this.accname = result.ACCNAME;
+              /*this.accname = result.ACCNAME;
               this.username = result.USERNAME;
-              this.navCtrl.push(MainMenuPage, {aname:this.accname, uname:this.username});
+              this.numofwins = result.*/
+
+              this.user1 = new User(result.ID, result.ACCNAME, result.USERNAME, result.NUMOFPOSTS, result.NUMOFWINS, result.ROLE);
+              this.navCtrl.push(MainMenuPage, {loggedUser: this.user1});
               //{testpass:this.base64Image}
             //this.rerouteTologin(JSON.stringify(result));
             //this.results = "tardedtypescript"; //TEGA NEA SHRANI V PUBLIC RESULTS; AMPAK REZULTAT VRNE
           },
         );
-    console.log("0UPORA: "+uporJson);
+    //console.log("0UPORA: "+uporJson);
     this.showLoading();
 
     /*.subscribe(allowed => {

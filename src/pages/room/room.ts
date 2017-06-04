@@ -6,6 +6,7 @@ import { Http, Jsonp } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs';
 import { Response } from '@angular/http';
+import { sessionData } from './room-data';
 
 /**
  * Generated class for the RoomPage page.
@@ -20,15 +21,6 @@ import { Response } from '@angular/http';
 })
 
 
-export class sessionData{
-  users: Array<Object>;
-  id_teme:number;
-  theme:String;
-  session_duration: number;
-  username_selector: String;
-  room_name: String;
-  num_of_players:number;
-}
 
 export class RoomPage {
 
@@ -37,7 +29,16 @@ export class RoomPage {
   public sessionID:number;
   public users: Array<Object>;
   public dataItem:sessionData;
-
+  /*public dataItem:{
+    users: Array<JSON>,
+    id_teme:number,
+    theme:String,
+    session_duration: number,
+    username_selector: String,
+    room_name: String,
+    num_of_players:number,
+  };
+*/
   public Rdata;
   public user1;
   public sessInfo;
@@ -47,6 +48,7 @@ export class RoomPage {
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
     this.sessInfo = this.navParams.get("sessionInfo");
+    this.dataItem = new sessionData();
     this.start();
   }
 
@@ -81,21 +83,31 @@ export class RoomPage {
   */
 
   assignSessionData(data:any){
+    if(data){
+      try{
     this.dataItem.users = data.USERS;
     this.dataItem.id_teme = data.ID_THEME;
     this.dataItem.theme = data.THEME;
     this.dataItem.session_duration = data.SESSION_DURATION;
     this.dataItem.username_selector = data.USERNAME_SELECTOR;
-    this.dataItem.users = data.USERS;
+    this.dataItem.room_name = data.ROOM_NAME;
+    this.dataItem.num_of_players = data.Num_Of_Players;
+    console.log(JSON.stringify(this.dataItem));
+    }
+    catch(e){
+      console.log("error message: data not asigned");
+    }
+  }
   }
 
   start(){
-    this.getData().subscribe(data => this.assignSessionData(data) );
+    this.getData().subscribe(data => {this.assignSessionData(data)}
+   );
   }
 
   // Uses http.get() to load a single JSON file
    getData() : Observable<any[]> {
-     return Observable.interval(1000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
+     return Observable.interval(5000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
       .map((res:Response) => res.json())
     );
    }

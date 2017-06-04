@@ -15,6 +15,7 @@ import {RoomPage} from "../room/room";
   selector: 'page-browserooms',
   templateUrl: 'browserooms.html',
 })
+
 export class BrowseroomsPage {
 
   public results: Array<Object>;

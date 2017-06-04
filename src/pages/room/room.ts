@@ -82,7 +82,6 @@ public num_of_players:number;
   }
 
 
-
   isSet(obj){
     if(!obj){
       return false;
@@ -127,9 +126,22 @@ public num_of_players:number;
   }
 
   startingInfo(){
-    this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
+    this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/'+ this.sessInfo.ID +'/')
      .map((res:Response) => res.json()).subscribe(data => {this.assignSessionData(data);})
-  }
+
+    this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/timer/getStart/'+ this.sessInfo.ID +'/')
+     .map((res:Response) => res.json()).subscribe(data => {
+       if(data.GAMESTATE==0){
+         if(200 - data.TIMEGOING>60){
+           this.timer.timeInSeconds = 200 - 60 - data.TIMEGOING;
+         }
+         else{
+           //premakni v view za zbiranje slik;
+         }
+       }
+     });
+   }
+
 
   start(){
     this.getData().subscribe(data => {this.assignSessionData(data)}
@@ -138,7 +150,7 @@ public num_of_players:number;
 
   // Uses http.get() to load a single JSON file
    getData() : Observable<any[]> {
-     return Observable.interval(5000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
+     return Observable.interval(5000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/'+ this.sessInfo.ID +'/')
       .map((res:Response) => res.json())
     );
   }

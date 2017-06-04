@@ -9,6 +9,7 @@ import { MainMenuPage } from '../pages/main-menu/main-menu';
 import { BrowseroomsPage } from '../pages/browserooms/browserooms';
 import { CreateRoomFormPage } from '../pages/create-room-form/create-room-form';
 import { RoomPage } from '../pages/room/room';
+//import { sessionData } from '../pages/room/room-data';
 import { SelectorRoomPage } from '../pages/selector-room/selector-room';
 import { WinningpicsPage } from '../pages/winningpics/winningpics';
 import { ThemeSelectPage } from '../pages/theme-select/theme-select';
@@ -26,6 +27,7 @@ import { TimerComponent } from '../pages/room/timer';
     LoginPage,
     MainMenuPage,
     BrowseroomsPage,
+    //sessionData,
     CreateRoomFormPage,
     RoomPage,
     SelectorRoomPage,
@@ -45,6 +47,7 @@ import { TimerComponent } from '../pages/room/timer';
     LoginPage,
     MainMenuPage,
     BrowseroomsPage,
+    //sessionData,
     CreateRoomFormPage,
     RoomPage,
     SelectorRoomPage,

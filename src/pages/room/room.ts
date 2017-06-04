@@ -4,6 +4,9 @@ import { Camera } from '@ionic-native/camera';
 import { SelectorRoomPage } from '../selector-room/selector-room';
 import { Http, Jsonp } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+import { Response } from '@angular/http';
+import { sessionData } from './room-data';
 
 //TIMER
 import {ViewChild} from '@angular/core';
@@ -20,11 +23,36 @@ import { TimerComponent } from './timer';
   selector: 'page-room',
   templateUrl: 'room.html',
 })
+
+
+
 export class RoomPage {
 
   public base64Image: string;
   public feedback:Object;
+  public sessionID:number;
+  public dataItem = new sessionData();
 
+/*
+public users: Array<Object>;
+public id_teme:number;
+public theme:String;
+public session_duration: number;
+public username_selector: String;
+public room_name: String;
+public num_of_players:number;
+*/
+
+  /*public dataItem:{
+    users: Array<JSON>,
+    id_teme:number,
+    theme:String,
+    session_duration: number,
+    username_selector: String,
+    room_name: String,
+    num_of_players:number,
+  };
+*/
   public Rdata;
   public user1;
   public sessInfo;
@@ -37,6 +65,9 @@ export class RoomPage {
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
     this.sessInfo = this.navParams.get("sessionInfo");
+    console.log("Ustvari class");
+    this.startingInfo();
+    this.start();
   }
 
   ionViewDidLoad() {
@@ -50,12 +81,74 @@ export class RoomPage {
     console.log(JSON.stringify(this.sessInfo));
   }
 
+
+
   isSet(obj){
-    if(obj == null || obj == ""){
+    if(!obj){
       return false;
     }
     return true;
   }
+
+  isSelector(ime){
+    if(ime==this.sessInfo.USERNAME_SELECTOR)
+      return true;
+    return false;
+  }
+
+  /*
+  users: Array<Object>;
+  id_teme:number;
+  theme:String;
+  session_duration: number;
+  username_selector: String;
+  room_name: String;
+  num_of_players:number;
+  */
+
+  assignSessionData(data:any){
+    if(data){
+      try{
+        if(data.ROOM_NAME){
+          this.dataItem.users = data.USERS;
+          this.dataItem.id_teme = data.ID_THEME;
+          this.dataItem.theme = data.THEME;
+          this.dataItem.session_duration = data.SESSION_DURATION;
+          this.dataItem.username_selector = data.USERNAME_SELECTOR;
+          this.dataItem.room_name = data.ROOM_NAME;
+          this.dataItem.num_of_players = data.Num_Of_Players;
+          console.log(JSON.stringify(this.dataItem));
+        }
+    }
+    catch(e){
+      console.log("error message: data not asigned");
+    }
+  }
+  }
+
+  startingInfo(){
+    this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
+     .map((res:Response) => res.json()).subscribe(data => {this.assignSessionData(data);})
+  }
+
+  start(){
+    this.getData().subscribe(data => {this.assignSessionData(data)}
+   );
+  }
+
+  // Uses http.get() to load a single JSON file
+   getData() : Observable<any[]> {
+     return Observable.interval(5000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
+      .map((res:Response) => res.json())
+    );
+  }
+
+/*
+  getData(){
+    Observable.interval(5000).flatMap(()=>this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
+     .map((res:Response) => res.json()).subscribe(data => {this.assignSessionData(data)});
+   }
+*/
 
   pic()
   {

@@ -41,18 +41,18 @@ export class BrowseroomsPage {
     this.http.get(url)
       .map(response => response.json())
       .subscribe(result => {
-        console.log(result);
+        //console.log(result);
         this.Rdata = result.ROOMINFO;
-        console.log("BROWSERDIRECT: "+JSON.stringify(result.ROOMINFO));
-        this.redirectVroom(result.ROOMINFO);
+        //console.log("BROWSERDIRECT: "+JSON.stringify(result.ROOMINFO));
+        this.redirectVroom(result.ROOMINFO, result.sessionInfo );
         },
         Error => console.log("Room creation Error"+Error)
       );
   }
-  redirectVroom(sessionInfo){
+  redirectVroom(ROOMINFO,sessionInfo){
       //console.log("Redirekting to PAGEROOM");
       //console.log(sessionInfo);
-      this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: sessionInfo});
+      this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: sessionInfo, roomInfo: ROOMINFO });
   }
   getSessionID(roomID){
 

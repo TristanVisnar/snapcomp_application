@@ -56,6 +56,7 @@ public num_of_players:number;
   public Rdata;
   public user1;
   public sessInfo;
+  public ROOMINFO;
   //public base64Data:string;
 
   //TIMER
@@ -65,20 +66,21 @@ public num_of_players:number;
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
     this.sessInfo = this.navParams.get("sessionInfo");
-    console.log("Ustvari class");
+    this.ROOMINFO = this.navParams.get("roomInfo");
+    //console.log("Ustvari class");
     this.startingInfo();
     this.start();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RoomPage');
+    /*console.log('ionViewDidLoad RoomPage');
     console.log(this.Rdata);
     console.log(this.user1);
     console.log(this.sessInfo);
     console.log("STRINGS______________________");
     console.log(JSON.stringify(this.Rdata));
     console.log(JSON.stringify(this.user1));
-    console.log(JSON.stringify(this.sessInfo));
+    console.log(JSON.stringify(this.sessInfo));*/
   }
 
 
@@ -178,10 +180,13 @@ public num_of_players:number;
     });
   }
 
+  finishSession(){
+      this.navCtrl.push(SelectorRoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO});
+  }
   posljiSliko(){
     let headers = new Headers({ 'Content-Type': 'application/json' });
     //$input->ID_USER,$input->ID_SESSION,$input->CONTENT,$input->ID_SUGGESTION,$input->longitude,$input->latitude
-    var data = JSON.stringify({"ID_USER": 1 ,"ID_SESSION": 2 , "CONTENT": this.base64Image , "ID_SUGGESTION": 4, "longitude": 10.12, "latitude": 3.23  });
+    var data = JSON.stringify({"ID_USER": this.user1.ID ,"ID_SESSION": this.sessInfo.ID, "CONTENT": this.base64Image , "ID_SUGGESTION": 4, "longitude": 10.12, "latitude": 3.23  });
     this.http.post("http://164.8.230.124/tmp/snapcomp/api.php/images/0/", data , headers)
     .subscribe(
       data=> this.feedback = "Successfully commited",

@@ -23,11 +23,18 @@ export class ThemeSelectPage {
   public suggestionArray;
   public activeSuggestion;
   public selectionID;
+  public winningpic;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public http: Http, public alertCtrl: AlertController) {
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
-    this.suggestionArray = this.navParams.get("suggArray");
+    if(this.navParams.get("suggArray"))
+      this.suggestionArray = this.navParams.get("suggArray");
+    else
+      this.getSuggestionData();
+    if(this.navParams.get("winningpic")){
+      this.winningpic = this.navParams.get("winningpic");
+    }
     //console.log("Suggestion array: "+this.suggestionArray);
   }
 
@@ -39,6 +46,13 @@ export class ThemeSelectPage {
 
     //console.log(this.activeSuggestion);
   }
+
+  isSet(obj){
+    if(obj)
+      return true;
+    return false;
+  }
+
   redirectToRoom(selected, typed, duration){
     var selection: String;
     var userOR: String;
@@ -134,7 +148,7 @@ export class ThemeSelectPage {
         console.log("THEMELOG: "+JSON.stringify(result.ROOMINFO));
         this.redirectVroom(result.ROOMINFO);
         },
-        Error => console.log("Room creation Error"+Error)
+        error => console.log("Room creation Error"+error)
       );
   }
 
@@ -144,6 +158,13 @@ export class ThemeSelectPage {
       this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: sessionInfo});
   }
 
+  getSuggestionData(){
+      this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/suggestions/dailySuggestions')
+        .map(response => response.json())
+        .subscribe(data => this.suggestionArray = data,
+          error => console.log("Suggestion retrieve error")
+        );
+  }
 
   findIDofSelection(selection){
     //console.log("TImmy: "+this.suggestionArray);

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, Jsonp } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {ThemeSelectPage} from '../theme-select/theme-select';
 
 
 /**
@@ -62,11 +63,13 @@ export class SelectorRoomPage {
     let headers = new Headers({ 'Content-Type': 'application/json' });
 
     //$input->ID_SESSION,$input->ID_PICTURE
-    var data = JSON.stringify({"ID_PICTURE": ID ,"ID_SESSION": 2 });
+    var data = JSON.stringify({"ID_PICTURE": ID ,"ID_SESSION": this.sessInfo.ID });
 
     this.http.post("http://164.8.230.124/tmp/snapcomp/api.php/images/1/", data , headers)
+    .map(rez => rez.json())
     .subscribe(
-      data=> this.feedback = JSON.stringify(data)
+      data=> {console.log(data);this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, winningpic: data})}
+
       //error=> this.feedback = "Connection error"
     );
   }

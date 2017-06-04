@@ -198,6 +198,7 @@ public num_of_players:number;
     setTimeout(() => {
       this.timer.startTimer();
     }, 1000)
+
   }
 
 }

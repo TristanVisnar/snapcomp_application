@@ -15,7 +15,6 @@
 
 <ion-content padding>
 
-
     <ion-item>
      <ion-label stacked>Type in the theme for the next round:</ion-label>
      <ion-input #TypedSuggestion value="" type="text"></ion-input>
@@ -38,5 +37,10 @@
   <br>
 
   <button (click)="redirectToRoom(selectedSuggestion.value, TypedSuggestion.value, duration.value)" type="button" ion-button round color="default">Confirm&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
+
+
+  <ion-card *ngIf="isSet(winningpic)">
+    <img src="data:image/png;base64,{{winningpic.CONTENT}}" class="photo" />
+  </ion-card>
 
 </ion-content>

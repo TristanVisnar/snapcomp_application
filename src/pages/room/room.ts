@@ -118,7 +118,7 @@ public num_of_players:number;
           this.dataItem.username_selector = data.USERNAME_SELECTOR;
           this.dataItem.room_name = data.ROOM_NAME;
           this.dataItem.num_of_players = data.Num_Of_Players;
-          console.log(JSON.stringify(this.dataItem));
+          console.log("DATA IZPIS"+JSON.stringify(this.dataItem));
         }
     }
     catch(e){

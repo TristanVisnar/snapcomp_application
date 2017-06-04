@@ -18,6 +18,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera } from '@ionic-native/camera';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
+import { TimerComponent } from '../pages/room/timer';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -28,7 +30,8 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
     RoomPage,
     SelectorRoomPage,
     WinningpicsPage,
-    ThemeSelectPage
+    ThemeSelectPage,
+    TimerComponent
   ],
   imports: [
     BrowserModule,

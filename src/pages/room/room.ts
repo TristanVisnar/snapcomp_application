@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy, Input } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { SelectorRoomPage } from '../selector-room/selector-room';
 import { Http, Jsonp } from '@angular/http';
 import 'rxjs/add/operator/map';
+
+//TIMER
+import {ViewChild} from '@angular/core';
+import { TimerComponent } from './timer';
 
 /**
  * Generated class for the RoomPage page.
@@ -25,6 +29,9 @@ export class RoomPage {
   public user1;
   public sessInfo;
   //public base64Data:string;
+
+  //TIMER
+  @ViewChild(TimerComponent) timer: TimerComponent;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public camera: Camera, public http: Http, public json: Jsonp) {
     this.Rdata = this.navParams.get("roomdata");
@@ -76,4 +83,11 @@ export class RoomPage {
       error=> this.feedback = "Connection error"
     );
   }
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.timer.startTimer();
+    }, 1000)
+  }
+
 }

@@ -42,7 +42,7 @@ export class MainMenuPage {
 
   redirectBrowse()
   {
-    this.navCtrl.push(BrowseroomsPage);
+    this.navCtrl.push(BrowseroomsPage, {user1: this.logUser});
   }
 
   redirectCreate()

@@ -35,7 +35,7 @@
     <button ion-item>
       <b>ROOM: </b><span class="labelStyle">randroom</span><b>N: </b><span style="labelStyle">5/10</span><ion-icon style="margin-left:30px;" md="md-lock"></ion-icon>
     </button>-->
-    <button ion-item *ngFor="let result of results">
+    <button ion-item *ngFor="let result of results" (click)="enterRoom(result.ID)">
       <b>ROOM: </b><span class="labelStyle">{{ result.NAME }}</span><b>N: </b><span style="labelStyle">10/10</span>
     </button>
   </ion-list>

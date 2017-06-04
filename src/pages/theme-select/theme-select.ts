@@ -81,7 +81,7 @@ export class ThemeSelectPage {
     this.http.post(url, JSON.stringify(jsonString))
       .map(response => response.json())
       .subscribe(result => {
-            console.log("RESULTID: "+ JSON.stringify(this.Rdata));
+            //console.log("RESULTID: "+ JSON.stringify(this.Rdata));
             this.createSession(duration,this.user1.ID,this.Rdata.roomID,result.ID);
             //create session
             //redirect user to room
@@ -101,13 +101,13 @@ export class ThemeSelectPage {
       ID_ROOM: idroom,
       ID_SUGGESTION: idsugg
     };
-    console.log("JSON LOG1: "+JSON.stringify(jsonString));
+    //console.log("JSON LOG1: "+JSON.stringify(jsonString));
     this.http.post(url1, JSON.stringify(jsonString))
       .map(response => response.json())
       .subscribe(result => {
             //USERS, ID_THEME, THEME, SESSION_DURATION,
             //USERNAME_SELECTOR, ID_ROOM, ROOM_NAME, NumOfPlayers
-            console.log("JSON LOG2: "+JSON.stringify(result));
+            //console.log("JSON LOG2: "+JSON.stringify(result));
             //console.log(result.ID_THEME);
             this.addUserToSession(result.SESSION_ID);
             //Enter session, SESSIONID, USERID
@@ -123,14 +123,15 @@ export class ThemeSelectPage {
     var url: string;
     console.log(this.user1.ID);
     url = "http://164.8.230.124/tmp/snapcomp/api.php/rooms/enterSession/"+seja+"/"+this.user1.ID;
-    console.log(url);
+    //console.log(url);
     this.http.get(url)
       .map(response => response.json())
       .subscribe(result => {
         //USERS, ID_THEME, THEME, SESSION_DURATION,
         //USERNAME_SELECTOR, ID_ROOM, ROOM_NAME, NumOfPlayers
       //  console.log("REZULT OD ENTERSESSIONA");
-        console.log(result);
+        //console.log(result);
+        console.log("THEMELOG: "+JSON.stringify(result.ROOMINFO));
         this.redirectVroom(result.ROOMINFO);
         },
         Error => console.log("Room creation Error"+Error)

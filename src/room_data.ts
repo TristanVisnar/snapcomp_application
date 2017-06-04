@@ -1,7 +1,7 @@
 export class RoomData {
   //public USERNAME: String;
   public roomID: Number;
-  public roomname: String;
+  public ROOM_NAME: String;
   public ID_CREATOR: Number;
   public privroom: Number;
   public pass: String;
@@ -12,7 +12,7 @@ export class RoomData {
     //this.USERNAME = USERNAME;
     //this.STATE = STATE;
     this.roomID = roomID;
-    this.roomname = roomname;
+    this.ROOM_NAME = roomname;
     this.ID_CREATOR = ID_CREATOR;
     this.privroom = privroom;
     this.nsfwroom = nsfwroom;

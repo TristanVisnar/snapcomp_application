@@ -27,8 +27,18 @@ export class RoomPage {
   public base64Image: string;
   public feedback:Object;
   public sessionID:number;
-  public users: Array<Object>;
-  public dataItem:sessionData;
+  public dataItem = new sessionData();
+
+/*
+public users: Array<Object>;
+public id_teme:number;
+public theme:String;
+public session_duration: number;
+public username_selector: String;
+public room_name: String;
+public num_of_players:number;
+*/
+
   /*public dataItem:{
     users: Array<JSON>,
     id_teme:number,
@@ -48,7 +58,8 @@ export class RoomPage {
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
     this.sessInfo = this.navParams.get("sessionInfo");
-    this.dataItem = new sessionData();
+    console.log("Ustvari class");
+    this.startingInfo();
     this.start();
   }
 
@@ -66,10 +77,16 @@ export class RoomPage {
 
 
   isSet(obj){
-    if(obj == null || obj == ""){
+    if(!obj){
       return false;
     }
     return true;
+  }
+
+  isSelector(ime){
+    if(ime==this.sessInfo.USERNAME_SELECTOR)
+      return true;
+    return false;
   }
 
   /*
@@ -85,19 +102,26 @@ export class RoomPage {
   assignSessionData(data:any){
     if(data){
       try{
-    this.dataItem.users = data.USERS;
-    this.dataItem.id_teme = data.ID_THEME;
-    this.dataItem.theme = data.THEME;
-    this.dataItem.session_duration = data.SESSION_DURATION;
-    this.dataItem.username_selector = data.USERNAME_SELECTOR;
-    this.dataItem.room_name = data.ROOM_NAME;
-    this.dataItem.num_of_players = data.Num_Of_Players;
-    console.log(JSON.stringify(this.dataItem));
+        if(data.ROOM_NAME){
+          this.dataItem.users = data.USERS;
+          this.dataItem.id_teme = data.ID_THEME;
+          this.dataItem.theme = data.THEME;
+          this.dataItem.session_duration = data.SESSION_DURATION;
+          this.dataItem.username_selector = data.USERNAME_SELECTOR;
+          this.dataItem.room_name = data.ROOM_NAME;
+          this.dataItem.num_of_players = data.Num_Of_Players;
+          console.log(JSON.stringify(this.dataItem));
+        }
     }
     catch(e){
       console.log("error message: data not asigned");
     }
   }
+  }
+
+  startingInfo(){
+    this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
+     .map((res:Response) => res.json()).subscribe(data => {this.assignSessionData(data);})
   }
 
   start(){
@@ -110,8 +134,14 @@ export class RoomPage {
      return Observable.interval(5000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
       .map((res:Response) => res.json())
     );
-   }
+  }
 
+/*
+  getData(){
+    Observable.interval(5000).flatMap(()=>this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/1/')
+     .map((res:Response) => res.json()).subscribe(data => {this.assignSessionData(data)});
+   }
+*/
 
   pic()
   {

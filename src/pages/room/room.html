@@ -21,9 +21,9 @@
     <h3 style="width: 50%; margin: 0 auto;">Current Theme: {{sessInfo.THEME}}</h3>
   </div>
 
-  <ion-list>
-    <span ion-item>
-      <b>Username: </b><span class="labelStyle">{{user1.USERNAME}}<ion-icon style="margin-left:5px" name="eye"></ion-icon></span><b>Points: </b><span style="labelStyle">6</span>
+  <ion-list *ngIf="isSet(dataItem.users)">
+    <span  *ngFor="let user of dataItem.users" ion-item>
+      <b>Username: </b><span class="labelStyle">{{user.USERNAME}}<ion-icon *ngIf="isSelector(user.USERNAME)" style="margin-left:5px" name="eye"></ion-icon></span><b>Points: </b><span style="labelStyle">6</span>
     </span>
     <!--<span ion-item>
       <font color="#418be0"><b>Username: </b><span class="labelStyle">Kevin123</span><b>Points: </b><span style="labelStyle">4</span></font>

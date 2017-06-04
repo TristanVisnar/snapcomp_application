@@ -36,7 +36,7 @@ export class BrowseroomsPage {
   enterRoom(roomID){
     var url: string;
     //console.log(this.user1.ID);
-    url = "http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionViaRoomID/"+roomID;
+    url = "http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionViaRoomID/"+roomID+"/"+this.user1.ID+"/";
     //console.log(url);
     this.http.get(url)
       .map(response => response.json())

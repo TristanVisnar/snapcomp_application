@@ -1,6 +1,3 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
 export class sessionData{
   public users: Array<Object>;
   public id_teme:number;

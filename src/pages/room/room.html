@@ -36,7 +36,7 @@
   <button type="button" ion-button round color="default" (click)="pic()">Take picture&nbsp;&nbsp;<ion-icon name="aperture"></ion-icon></button>
   <button *ngIf="isSet(base64Image)" type="button" ion-button round color="default" (click)="posljiSliko()">Commit picture&nbsp;&nbsp;<!--<ion-icon name="aperture"></ion-icon>--></button>
   <span *ngIf="isSet(feedback)">{{feedback}}</span>
-
+  <button type="button" ion-button round color="default" (click)="finishSession()">Finish Session</button>
   <timer #timer [timeInSeconds]="5"></timer>
 
 </ion-content>

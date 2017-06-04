@@ -20,13 +20,32 @@ export class SelectorRoomPage {
   public feedback:string;
   public textPassed: string;
   public slike: Array<Object>;
-
+  public Rdata;
+  public user1;
+  public sessInfo;
+  public ROOMINFO;
   constructor(public navCtrl: NavController, public navParams: NavParams ,public http: Http, public json: Jsonp) {
-    http.get('http://164.8.230.124/tmp/snapcomp/api.php/images/1/2/')
+    this.Rdata = this.navParams.get("roomdata");
+    this.user1 = this.navParams.get("user1");
+    this.sessInfo = this.navParams.get("sessionInfo");
+    this.ROOMINFO = this.navParams.get("roominfo");
+    var url: string;
+    url = "http://164.8.230.124/tmp/snapcomp/api.php/images/1/"+this.sessInfo.ID;
+    console.log(url);
+    this.http.get(url)
       .map(response => response.json())
       .subscribe(result => this.slike = result);
-    //this.textPassed = navParams.get("testpass");
+    //console.log(this.Rdata);
+  //  console.log(this.user1);
 
+  //  console.log("SESSION INFO: "+JSON.stringify(this.sessInfo));
+  //  console.log("ROOM INFO: "+JSON.stringify(this.ROOMINFO));
+                                                      //1, session number
+
+    /*http.get('http://164.8.230.124/tmp/snapcomp/api.php/images/1/2/')
+      .map(response => response.json())
+      .subscribe(result => this.slike = result);
+    this.textPassed = navParams.get("testpass");*/
   }
 
   isSet(obj){
@@ -56,6 +75,7 @@ export class SelectorRoomPage {
 
 
   ionViewDidLoad() {
+    //this.textPassed = navParams.get("testpass");
     console.log('ionViewDidLoad SelectorRoomPage');
   }
 }

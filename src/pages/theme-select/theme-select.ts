@@ -52,9 +52,9 @@ export class ThemeSelectPage {
       alert.present();
       return;
     }
-    console.log("USER: "+this.user1.ID);
+    //console.log("USER: "+this.user1.ID);
     if(!(selected == "")){//if nothing is selected then we use typed
-      console.log("select je izbran");
+      //console.log("select je izbran");
       userOR = "1";
       selection = selected.trim();
 

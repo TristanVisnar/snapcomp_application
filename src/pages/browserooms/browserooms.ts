@@ -45,6 +45,7 @@ export class BrowseroomsPage {
         this.Rdata = result.ROOMINFO;
         //console.log("BROWSERDIRECT: "+JSON.stringify(result.ROOMINFO));
         this.redirectVroom(result.ROOMINFO, result.sessionInfo );
+        console.log("Session INfo: "+JSON.stringify(result));
         },
         Error => console.log("Room creation Error"+Error)
       );

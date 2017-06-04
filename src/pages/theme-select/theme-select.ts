@@ -43,7 +43,7 @@ export class ThemeSelectPage {
     var selection: String;
     var userOR: String;
     var selectID: Number;
-    if(typed === "" && selected === "") {
+    if(typed == "" && selected == "") {
       let alert = this.alertCtrl.create({
           title: 'Warning!',
           subTitle: 'You have not selected or typed a suggestion!',

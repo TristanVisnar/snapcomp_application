@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Room Name</ion-title>
+    <ion-title>{{Rdata.roomname}}</ion-title>
     <ion-buttons end>
       <button style="height:40px; width:40px" align="center" ion-button color="dark"><ion-icon style="font-size:30px" name="md-settings"></ion-icon></button>
     </ion-buttons>
@@ -18,19 +18,19 @@
 
 <ion-content padding>
   <div>
-    <h3 style="width: 50%; margin: 0 auto;">Current Theme: Nature</h3>
+    <h3 style="width: 50%; margin: 0 auto;">Current Theme: {{sessInfo.THEME}}</h3>
   </div>
 
   <ion-list>
     <span ion-item>
-      <b>Username: </b><span class="labelStyle">DžejDžej<ion-icon style="margin-left:5px" name="eye"></ion-icon></span><b>Points: </b><span style="labelStyle">6</span>
+      <b>Username: </b><span class="labelStyle">{{user1.USERNAME}}<ion-icon style="margin-left:5px" name="eye"></ion-icon></span><b>Points: </b><span style="labelStyle">6</span>
     </span>
-    <span ion-item>
+    <!--<span ion-item>
       <font color="#418be0"><b>Username: </b><span class="labelStyle">Kevin123</span><b>Points: </b><span style="labelStyle">4</span></font>
     </span>
     <span ion-item>
       <b>Username: </b><span class="labelStyle">Tristan123</span><b>Points: </b><span style="labelStyle">1</span>
-    </span>
+    </span>-->
   </ion-list>
     <img *ngIf="isSet(base64Image)" src="data:image/png;base64,{{base64Image}}" class="photo" />
   <button type="button" ion-button round color="default" (click)="pic()">Take picture&nbsp;&nbsp;<ion-icon name="aperture"></ion-icon></button>

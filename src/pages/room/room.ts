@@ -20,13 +20,27 @@ export class RoomPage {
 
   public base64Image: string;
   public feedback:Object;
+
+  public Rdata;
+  public user1;
+  public sessInfo;
   //public base64Data:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public camera: Camera, public http: Http, public json: Jsonp) {
+    this.Rdata = this.navParams.get("roomdata");
+    this.user1 = this.navParams.get("user1");
+    this.sessInfo = this.navParams.get("sessionInfo");
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RoomPage');
+    console.log(this.Rdata);
+    console.log(this.user1);
+    console.log(this.sessInfo);
+    console.log("STRINGS______________________");
+    console.log(JSON.stringify(this.Rdata));
+    console.log(JSON.stringify(this.user1));
+    console.log(JSON.stringify(this.sessInfo));
   }
 
   isSet(obj){

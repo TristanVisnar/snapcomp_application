@@ -81,7 +81,8 @@ export class ThemeSelectPage {
     this.http.post(url, JSON.stringify(jsonString))
       .map(response => response.json())
       .subscribe(result => {
-            this.createSession(duration,this.user1.ID,this.Rdata.ID,result.ID);
+            console.log("RESULTID: "+ JSON.stringify(this.Rdata));
+            this.createSession(duration,this.user1.ID,this.Rdata.roomID,result.ID);
             //create session
             //redirect user to room
             //this.navCtrl.push(ThemeSelectPage, {roomdata: this.creationData, suggArray: this.suggArray, user1: this.user1});
@@ -98,14 +99,16 @@ export class ThemeSelectPage {
       SESSION_DURATION: duration,
       ID_SELECTOR: idselector,
       ID_ROOM: idroom,
-      ID_SUGGGESTION: idsugg
+      ID_SUGGESTION: idsugg
     };
+    console.log("JSON LOG1: "+JSON.stringify(jsonString));
     this.http.post(url1, JSON.stringify(jsonString))
       .map(response => response.json())
       .subscribe(result => {
             //USERS, ID_THEME, THEME, SESSION_DURATION,
             //USERNAME_SELECTOR, ID_ROOM, ROOM_NAME, NumOfPlayers
-            console.log(result.SESSION_ID);
+            console.log("JSON LOG2: "+JSON.stringify(result));
+            //console.log(result.ID_THEME);
             this.addUserToSession(result.SESSION_ID);
             //Enter session, SESSIONID, USERID
             //create session
@@ -126,14 +129,17 @@ export class ThemeSelectPage {
       .subscribe(result => {
         //USERS, ID_THEME, THEME, SESSION_DURATION,
         //USERNAME_SELECTOR, ID_ROOM, ROOM_NAME, NumOfPlayers
-        this.redirectVroom(result.ROOMIINFO);
+      //  console.log("REZULT OD ENTERSESSIONA");
+        console.log(result);
+        this.redirectVroom(result.ROOMINFO);
         },
         Error => console.log("Room creation Error"+Error)
       );
   }
 
   redirectVroom(sessionInfo){
-      console.log("Redirekting to PAGEROOM");
+      //console.log("Redirekting to PAGEROOM");
+      //console.log(sessionInfo);
       this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: sessionInfo});
   }
 

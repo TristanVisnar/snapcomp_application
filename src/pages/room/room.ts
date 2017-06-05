@@ -88,9 +88,14 @@ public num_of_players:number;
   leaveSession(){
     this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/leaveSession/"+this.sessInfo.ID+"/"+this.user1.ID)
     .subscribe(
-      result => this.navCtrl.push(BrowseroomsPage, {user1: this.user1}),
+      result =>
+        {
+          this.navCtrl.push(BrowseroomsPage, {user1: this.user1})
+          //unsub from getdata, nevem kako
+        },
       error =>
-        {   let alert = this.alertCtrl.create({
+        {
+          let alert = this.alertCtrl.create({
               title: 'Warning!',
               subTitle: 'Unable to leave session, try again later!',
               buttons: ['OK']
@@ -162,8 +167,7 @@ public num_of_players:number;
 
 
   start(){
-    this.getData().subscribe(data => {this.assignSessionData(data)}
-   );
+    this.getData().subscribe(data => {this.assignSessionData(data)});
   }
 
   // Uses http.get() to load a single JSON file
@@ -214,7 +218,6 @@ public num_of_players:number;
     setTimeout(() => {
       this.timer.startTimer();
     }, 1000)
-
   }
 
 }

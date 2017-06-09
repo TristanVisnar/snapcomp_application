@@ -70,6 +70,11 @@ public num_of_players:number;
     this.sessInfo = this.navParams.get("sessionInfo");
     this.ROOMINFO = this.navParams.get("roomInfo");
     //console.log("Ustvari class");
+    console.log("STRINGS______________________");
+    console.log(JSON.stringify(this.Rdata));
+    console.log(JSON.stringify(this.user1));
+    console.log(JSON.stringify(this.sessInfo));
+    console.log("Theme: "+JSON.stringify(this.ROOMINFO.THEME));
     this.startingInfo();
     this.start();
   }
@@ -79,10 +84,11 @@ public num_of_players:number;
     console.log(this.Rdata);
     console.log(this.user1);
     console.log(this.sessInfo);
+    */
     console.log("STRINGS______________________");
     console.log(JSON.stringify(this.Rdata));
     console.log(JSON.stringify(this.user1));
-    console.log(JSON.stringify(this.sessInfo));*/
+    console.log(JSON.stringify(this.sessInfo));
   }
 
   leaveSession(){

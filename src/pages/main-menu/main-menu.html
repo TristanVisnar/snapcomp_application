@@ -9,24 +9,25 @@
   <ion-navbar>
     <ion-title>Main Menu</ion-title>
     <ion-buttons end>
-      <button style="height:40px; width:40px" align="center" ion-button color="dark"><ion-icon style="font-size:30px" name="md-settings"></ion-icon></button>
+      <button style="height:40px; width:40px;" align="center" ion-button color="dark"><ion-icon style="font-size:30px" name="md-settings"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content align="center" padding>
+<ion-content align="center" padding class="bgc">
 
-  <button class="cssButton" ion-button round color="default" (click)="redirectCreate()">
+  <button style="background-color: #f2a643; color:black;" class="cssButton" ion-button round color="default" (click)="redirectCreate()">
       Create new room&nbsp;&nbsp;
       <ion-icon name="ios-add-circle-outline"></ion-icon>
   </button>
   <br><br>
-  <button class="cssButton" ion-button round color="default" (click)="redirectBrowse()">
+  <button style="background-color: #f2a643; color:black;" class="cssButton" ion-button round color="default" (click)="redirectBrowse()">
       Browse rooms&nbsp;&nbsp;
       <ion-icon name="ios-search"></ion-icon>
   </button>
+  <br><br>
 
   <hr><br>
 
@@ -38,10 +39,10 @@
       <img src="https://www.artpeoplegallery.com/wp-content/uploads/2016/02/55-Breaking-Bad-Walter-White-Heisenberg-Glasses-Painting-Portrait-by-Ahmad-Kadi-680x425.jpg"/>
   </div>
 
-  <h1 style="margin-top:-60px;">{{logUser.USERNAME}}</h1>
-  <p style="margin-top:-5px;">{{logUser.ACCNAME}}</p>
+  <h1 style="margin-top:-60px; color:white;">{{logUser.USERNAME}}</h1>
+  <p style="margin-top:-5px; color:white;">{{logUser.ACCNAME}}</p>
 
-  <label><font size="4px">Posts: {{logUser.NUMOFPOSTS}}</font></label><br>
-  <label><font size="4px">Wins: {{logUser.NUMOFWINS}}</font></label>
+  <label><font color="white" size="4px">Posts: {{logUser.NUMOFPOSTS}}</font></label><br>
+  <label><font color="white" size="4px">Wins: {{logUser.NUMOFWINS}}</font></label>
 
 </ion-content>

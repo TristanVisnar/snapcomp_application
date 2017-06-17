@@ -16,42 +16,45 @@
 
 </ion-header>
 
-<ion-content align="center" padding>
+<ion-content align="center" padding class="bgc">
   <div class="" style="text-align:center;">
     <!--<label><font size="5px">Welcome to SnapComp</font></label>-->
-    <h1>Welcome to SnapComp!</h1>
+    <h1><font color="white">Welcome to SnapComp!</font></h1>
   </div>
-  <br>
+  <p style="margin-top:-7px;"><i><font color="white" size="5px" face="Satisfy">"Pick a pic"</font></i></p>
   <!--<button class="menubutton" ion-button color="light" (click)="showPrompt()">Login</button><br><br>-->
   <div class="login-box">
     <form (ngSubmit)="login()" #registerForm="ngForm">
       <ion-row>
         <ion-col>
-          <h2>Login</h2>
+          <h2><font color="white">Login</font></h2>
 
           <ion-list inset>
 
-            <ion-item>
-              <ion-input type="text" placeholder="Account Name" name="ACCNAME" [(ngModel)]="regCredentials.accname" required></ion-input>
+            <ion-item style="background-color:#494949">
+              <ion-input style="color:white" type="text" placeholder="Account Name" name="ACCNAME" [(ngModel)]="regCredentials.accname" required></ion-input>
             </ion-item>
 
-            <ion-item>
-              <ion-input type="password" placeholder="Password" name="PASSWORD" [(ngModel)]="regCredentials.pass" required></ion-input>
+            <ion-item style="background-color:#494949">
+              <ion-input style="color:white" type="password" placeholder="Password" name="PASSWORD" [(ngModel)]="regCredentials.pass" required></ion-input>
             </ion-item>
 
           </ion-list>
         </ion-col>
       </ion-row>
 
-      <button ion-button class="submit-btn" full type="submit">Login</button>
+      <button style="background-color:#f2a643; color:black;" ion-button round class="submit-btn" full type="submit">Login</button><br>
+      <a onclick="window.open('http://164.8.230.124/tmp/snapcomp/?controller=pages&action=register', '_system', 'location=yes'); return false;"><u>Already have an account?</u></a>
     </form>
-
   </div>
-
   <br>
 
-  <button class="menubutton" ion-button color="light" onclick="window.open('http://164.8.230.124/tmp/snapcomp/?controller=pages&action=register', '_system', 'location=yes'); return false;">Register</button><br><br>
-  <button class="menubutton" ion-button color="light" (click)="winningPicsPageRedirect()">Browse</button><br>
+  <br>
+  <div style="margin-right: 25px; margin-left:25px;">
+    <h4><font color="white">Just want to browse pictures?</font></h4>
+    <!--<button class="menubutton" ion-button full color="light" onclick="window.open('http://164.8.230.124/tmp/snapcomp/?controller=pages&action=register', '_system', 'location=yes'); return false;">Register</button><br>-->
+    <button class="menubutton" ion-button round full color="light" (click)="winningPicsPageRedirect()">Browse</button><br>
+  </div>
 
   <!--<hr>
   <label> testing buttons </label>

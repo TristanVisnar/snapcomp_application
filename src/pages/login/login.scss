@@ -1,5 +1,11 @@
 page-login {
 
+  $colors: (
+    default: #9aff28,
+    secondary: #9aff28,
+    mainOrange: #ff7b00
+  );
+
   .login-box {
   //padding: 20px 20px 0px 20px;
   margin-top: 15px;
@@ -7,7 +13,7 @@ page-login {
   margin-left: auto;
   margin-right: auto;
   //width: 400px;
-  border:1px solid white;
+  border:1px solid #494949;
 }
 
 ::-webkit-input-placeholder {
@@ -18,7 +24,12 @@ page-login {
 }
 
 .menubutton {
-  width: 160px;
-  height: 50px;
-  font-size: 16px;
+  //width: 160px;
+  //height: 50px;
+  //font-size: 16px;
+  background-color: #f2a643;
+}
+
+.toolbar-background {
+  background-color: #ccea38;
 }

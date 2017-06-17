@@ -21,8 +21,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-list>
+<ion-content padding class="bgc">
+  <ion-list class="bgc">
     <!--<button ion-item>
       <b>ROOM: </b><span class="labelStyle">Room123</span><b>N: </b><span style="labelStyle">1/10</span>
     </button>
@@ -35,8 +35,8 @@
     <button ion-item>
       <b>ROOM: </b><span class="labelStyle">randroom</span><b>N: </b><span style="labelStyle">5/10</span><ion-icon style="margin-left:30px;" md="md-lock"></ion-icon>
     </button>-->
-    <button ion-item *ngFor="let result of results" (click)="enterRoom(result.ID)">
-      <b>ROOM: </b><span class="labelStyle">{{ result.NAME }}</span><b>N: </b><span style="labelStyle">10/10</span>
+    <button class="bgc" ion-item *ngFor="let result of results" (click)="enterRoom(result.ID)">
+      <b style="color:white">ROOM: </b><span class="labelStyle" style="color:white">{{ result.NAME }}</span><b style="color:white">N: </b><span style="labelStyle" style="color:white">10/10</span>
     </button>
   </ion-list>
   <!--<ul>

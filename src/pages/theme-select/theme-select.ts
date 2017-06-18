@@ -30,6 +30,7 @@ export class ThemeSelectPage {
   public sessInfo;
   public ROOMINFO;
   public staticRoom;
+  public odprlo = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public http: Http, public alertCtrl: AlertController) {
@@ -40,6 +41,13 @@ export class ThemeSelectPage {
     this.staticRoom = this.navParams.get("staticRoom");
 
     console.log("Gamemode 2");
+
+    console.log(this.navParams.get("roomdata"));
+    console.log(this.navParams.get("user1"));
+    console.log(this.navParams.get("sessionInfo"));
+    console.log(this.navParams.get("roominfo"));
+    console.log(this.navParams.get("staticRoom"));
+
 
     if(this.navParams.get("suggArray"))
       this.suggestionArray = this.navParams.get("suggArray");
@@ -58,10 +66,36 @@ export class ThemeSelectPage {
     let prev = this.navCtrl.getPrevious();
     if(prev != this.staticRoom){
       console.log("in remove");
+      this.navCtrl.remove(this.navCtrl.getPrevious().index);
     }
 
+    if(this.sessInfo && this.sessInfo.ID){
+    this.themeIsChoosen().subscribe(
+      data => {
+        this.checkEnd(data);
+      }
+      );
+    }
   }
 
+
+  checkEnd(data:any){
+     console.log(data);
+     if(data.status == "true"){
+       if(!this.odprlo){
+         this.odprlo = true;
+         console.log("selected");
+         this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: this.ROOMINFO , sessionInfo: this.sessInfo, staticRoom : this.staticRoom});
+        }
+     }else if(data.status == "false"){
+       console.log("not selceted");
+       //this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: this.ROOMINFO , sessionInfo: this.sessInfo, staticRoom : this.staticRoom});
+     }else if(data.status == "error"){
+       console.log("error in prepare statement");
+     }else{
+       console.log("error in calling");
+     }
+ }
 
 
   ionViewDidLoad() {
@@ -81,6 +115,7 @@ export class ThemeSelectPage {
   }
 
   redirectToRoom(selected, typed, duration){
+    console.log("Redirect to room");
     var selection: String;
     var userOR: String;
     var selectID: Number;
@@ -119,15 +154,18 @@ export class ThemeSelectPage {
       ID_POSTER: selectID
     };
 
-    this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ this.sessInfo.ID+"/0/").subscribe(()=>{
-      this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/timer/setTime/"+ this.sessInfo.ID +"/").subscribe(()=>{
+    if(!this.odprlo){
         console.log(JSON.stringify(jsonString));
         this.http.post(url, JSON.stringify(jsonString))
           .map(response => response.json())
           .subscribe(result => {
                 //console.log("RESULTID: "+ JSON.stringify(this.Rdata));
-                if(this.sessInfo.ID){
-                  this.updateSession(duration,this.user1.ID,this.Rdata.roomID,result.ID);
+                if(this.sessInfo && this.sessInfo.ID){
+                  this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ this.sessInfo.ID+"/0/").subscribe(()=>{
+                    this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/timer/setTime/"+ this.sessInfo.ID +"/").subscribe(()=>{
+                      this.updateSession(duration,this.user1.ID,this.Rdata.roomID,result.ID,selection);
+                    });
+                  });
                 }
                 else{
                   this.createSession(duration,this.user1.ID,this.Rdata.roomID,result.ID);
@@ -138,14 +176,12 @@ export class ThemeSelectPage {
             },
             Error => console.log("SessionCreation error"+Error)
           );
-      });
-    });
-  }
-
+        }
+}
 
 
   themeIsChoosen() : Observable<any[]> {
-    return Observable.interval(1000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/isThemeSet/'+ this.sessInfo.ID +'/')
+    return Observable.interval(1000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/suggestions/isThemeSet/'+ this.sessInfo.ID +'/')
      .map((res:Response) => res.json())
    );
  }
@@ -169,7 +205,7 @@ export class ThemeSelectPage {
             //USERS, ID_THEME, THEME, SESSION_DURATION,
             //USERNAME_SELECTOR, ID_ROOM, ROOM_NAME, NumOfPlayers
             //console.log("JSON LOG2: "+JSON.stringify(result));
-            //console.log(result.ID_THEME);
+            console.log(result);
             this.addUserToSession(result.SESSION_ID);
             //Enter session, SESSIONID, USERID
             //create session
@@ -180,7 +216,14 @@ export class ThemeSelectPage {
       );
   }
 
-updateSession(duration,idselector,idroom,idsugg){
+getRoomID(){
+  if(this.Rdata.ID_ROOM)
+    return this.Rdata.ID_ROOM;
+  else
+    return this.Rdata.roomID;
+}
+
+updateSession(duration,idselector,idroom,idsugg,info){
   var url1: string;
   url1 = "http://164.8.230.124/tmp/snapcomp/api.php/rooms/updateSession";
   //SESSION_DURATION, ID_SELECTOR, ID_ROOM, ID_SUGGGESTION
@@ -188,16 +231,29 @@ updateSession(duration,idselector,idroom,idsugg){
   jsonString = {
     SESSION_DURATION: duration,
     ID_SELECTOR: idselector,
-    ID_ROOM: idroom,
+    ID_ROOM: this.Rdata.roomID,
     ID_SUGGESTION: idsugg
   };
 
+  console.log(jsonString);
   this.http.post(url1, JSON.stringify(jsonString))
     .map(response => response.json())
     .subscribe(
       data => {if(data.status == "done"){
         console.log(this.sessInfo);
-        this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: this.ROOMINFO , sessionInfo: this.sessInfo, staticRoom : this.staticRoom});
+
+
+        this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionViaRoomID/"+this.getRoomID()+"/"+this.user1.ID)
+          .map(response => response.json())
+          .subscribe(result => {
+            console.log(result);
+            this.ROOMINFO = result;
+            this.ROOMINFO.ROOMINFO.THEME = info;
+            this.ROOMINFO.ROOMINFO.ID_THEME = idsugg;
+            this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: this.ROOMINFO , sessionInfo: this.sessInfo, staticRoom : this.staticRoom});
+        });
+
+
       }},
       Error => console.log("Session update Error")
     );
@@ -218,16 +274,27 @@ updateSession(duration,idselector,idroom,idsugg){
       //  console.log("REZULT OD ENTERSESSIONA");
         //console.log(result);
         console.log("THEMELOG: "+JSON.stringify(result.ROOMINFO));
-        this.redirectVroom(result.ROOMINFO);
+        this.redirectVroom(result.ROOMINFO,seja);
         },
         error => console.log("Room creation Error"+error)
       );
   }
 
-  redirectVroom(sessionInfo){
+  redirectVroom(sessionInfo,ID){
       //console.log("Redirekting to PAGEROOM");
       //console.log(sessionInfo);
-      this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: this.ROOMINFO, sessionInfo: sessionInfo, staticRoom : this.staticRoom});
+      this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ ID+"/0/").subscribe(()=>{
+        this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/timer/setTime/"+ ID +"/").subscribe(()=>{
+          if(this.ROOMINFO)
+            var data= this.ROOMINFO;
+          else
+            var data= sessionInfo;
+
+          var session = {ID: ID};
+
+          this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: data, sessionInfo: session, staticRoom : this.staticRoom});
+        });
+      });
   }
 
   getSuggestionData(){

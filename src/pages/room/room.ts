@@ -58,39 +58,52 @@ public num_of_players:number;
   public user1;
   public sessInfo;
   public ROOMINFO;
-  public sessionLength:number = 60;
+  public sessionLength:number = 120;
   public time = this.sessionLength;
   //public base64Data:string;
   public staticRoom;
   public firstTime: boolean = true;
+  public odprlo: boolean = false;
   //TIMER
   @ViewChild(TimerComponent) timer: TimerComponent;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public camera: Camera, public http: Http, public json: Jsonp,
               public alertCtrl: AlertController) {
+                console.log("in tha room");
+                console.log(this.navParams.get("roomdata"));
+                console.log(this.navParams.get("user1"));
+                console.log(this.navParams.get("sessionInfo"));
+                console.log(this.navParams.get("roominfo"));
+                console.log(this.navParams.get("staticRoom"));
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
     this.sessInfo = this.navParams.get("sessionInfo");
-    this.ROOMINFO = this.navParams.get("roominfo");
+    if(this.navParams.get("roominfo").ROOMINFO){
+      this.ROOMINFO = this.navParams.get("roominfo").ROOMINFO;
+      this.Rdata = this.navParams.get("roominfo").sessionInfo;
+    }
+    else
+      this.ROOMINFO = this.navParams.get("roominfo");
+
     this.staticRoom = this.navParams.get("staticRoom");
     //console.log("Ustvari class");
     console.log("Gamemode 0");
     this.startingInfo();
 
-    console.log("Rdata:  " + this.navParams.get("roomdata"));
-    console.log("user1:  " +this.navParams.get("user1"));
-    console.log("sessInfo:  "+this.navParams.get("sessionInfo"));
-    console.log("roominfo:  "+this.navParams.get("roominfo"));
-    console.log("staticRoom:  "+this.navParams.get("staticRoom"));
+    console.log(this.navParams.get("roomdata"));
+    console.log(this.navParams.get("user1"));
+    console.log(this.navParams.get("sessionInfo"));
+    console.log(this.navParams.get("roominfo"));
+    console.log(this.navParams.get("staticRoom"));
 
-
+/*
     console.log(this.navCtrl.getActive());
 
     if(this.navCtrl.getPrevious() != this.staticRoom){
-      this.navCtrl.getPrevious()._destroy;
+      this.navCtrl.remove(this.navCtrl.getPrevious().index);
     }
-
+*/
   }
 
   ionViewDidLoad() {
@@ -104,6 +117,13 @@ public num_of_players:number;
     console.log(JSON.stringify(this.user1));
     console.log(JSON.stringify(this.sessInfo));
     this.start();
+  }
+
+  getRoomID(){
+    if(this.Rdata.ID_ROOM)
+      return this.Rdata.ID_ROOM;
+    else
+      return this.Rdata.this.Rdata.roomID;
   }
 
   leaveSession(){
@@ -195,6 +215,7 @@ public num_of_players:number;
         this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, winningpic: data ,staticRoom : this.staticRoom});
       }else if(data.status == "false"){
         console.log("not selceted");
+        this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, staticRoom : this.staticRoom});
       }else if(data.status == "error"){
         console.log("error in prepare statement");
       }else{
@@ -216,19 +237,34 @@ public num_of_players:number;
        else{
          console.log("Konec seje slikanja -> seja izbire");
          //this.setNewGamemode();
-         this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ this.sessInfo.ID+"/1/").subscribe(()=>{
-          this.navCtrl.push(SelectorRoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO ,staticRoom : this.staticRoom});}
+
+         if(!this.odprlo){
+           console.log("this ports 3");
+           this.odprlo = true;
+           this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ this.sessInfo.ID+"/1/").subscribe(()=>{
+           this.navCtrl.push(SelectorRoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO ,staticRoom : this.staticRoom});}
         );
+        }
        }
      }
      //da te na izbor slik
      else if(data.GAMESTATE == 1){
+
+       if(!this.odprlo){
+         console.log("this ports 1");
+         this.odprlo = true;
        this.navCtrl.push(SelectorRoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO ,staticRoom : this.staticRoom});
-     }
+      }
+    }
      //da te na izbor teme in zmagovalne slike
      else if(data.GAMESTATE == 2){
+
+       if(!this.odprlo){
+          console.log("this ports 2");
+         this.odprlo = true;
        this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/images/2/'+ this.sessInfo.ID +'/')
         .map((res:Response) => res.json()).subscribe(data => this.checkEnd(data))
+      }
      }
    }
 
@@ -288,7 +324,7 @@ public num_of_players:number;
   posljiSliko(){
     let headers = new Headers({ 'Content-Type': 'application/json' });
     //$input->ID_USER,$input->ID_SESSION,$input->CONTENT,$input->ID_SUGGESTION,$input->longitude,$input->latitude
-    var data = JSON.stringify({"ID_USER": this.user1.ID ,"ID_SESSION": this.sessInfo.ID, "CONTENT": this.base64Image , "ID_SUGGESTION": 4, "longitude": 10.12, "latitude": 3.23  });
+    var data = JSON.stringify({"ID_USER": this.user1.ID ,"ID_SESSION": this.sessInfo.ID, "CONTENT": this.base64Image , "ID_SUGGESTION": this.ROOMINFO.THEME, "longitude": 10.12, "latitude": 3.23  });
     this.http.post("http://164.8.230.124/tmp/snapcomp/api.php/images/0/", data , headers)
     .subscribe(
       data=> this.feedback = "Successfully commited",

@@ -30,6 +30,7 @@ export class SelectorRoomPage {
   public picChosen:Observable<any>;
   public subs:Subscription = new Subscription();
   public staticRoom;
+  public odprlo: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams ,public http: Http, public json: Jsonp) {
     this.Rdata = this.navParams.get("roomdata");
@@ -44,7 +45,7 @@ export class SelectorRoomPage {
 
 
     if(this.navCtrl.getPrevious() != this.staticRoom){
-      this.navCtrl.getPrevious()._destroy;
+      this.navCtrl.remove(this.navCtrl.getPrevious().index);
     }
 
     var url: string;
@@ -55,8 +56,13 @@ export class SelectorRoomPage {
       .subscribe(result => {
         this.slike = result;
         if(this.slike.length == 0){
-          console.log("Ni oddanih slik");
-          this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, staticRoom : this.staticRoom});
+          if(!this.odprlo){
+            this.odprlo = true;
+          this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ this.sessInfo.ID+"/2/").subscribe(()=>{
+            console.log("Ni oddanih slik");
+            this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, staticRoom : this.staticRoom});
+          });
+        }
         }
       });
     //console.log(this.Rdata);
@@ -79,26 +85,23 @@ export class SelectorRoomPage {
     return true;
   }
 
-  setFocus(obj){
-  }
-
-  setNewGamemode(){
-    this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ this.sessInfo.ID+"/2/");
-  }
 
   submitPic(ID){
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    this.setNewGamemode();
-    //$input->ID_SESSION,$input->ID_PICTURE
-    var data = JSON.stringify({"ID_PICTURE": ID ,"ID_SESSION": this.sessInfo.ID });
+    if(!this.odprlo){
+    this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ this.sessInfo.ID+"/2/").subscribe(()=>{
+      //$input->ID_SESSION,$input->ID_PICTURE
+      var data = JSON.stringify({"ID_PICTURE": ID ,"ID_SESSION": this.sessInfo.ID });
 
-    this.http.post("http://164.8.230.124/tmp/snapcomp/api.php/images/1/", data , headers)
-    .map(rez => rez.json())
-    .subscribe(
-      data=> {console.log(data);this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, winningpic: data , staticRoom : this.staticRoom})}
+      this.http.post("http://164.8.230.124/tmp/snapcomp/api.php/images/1/", data , headers)
+        .map(rez => rez.json())
+        .subscribe(
+          data=> {console.log(data);this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, winningpic: data , staticRoom : this.staticRoom})}
 
-      //error=> this.feedback = "Connection error"
-    );
+          //error=> this.feedback = "Connection error"
+      );
+    });
+  }
   }
 
   picIsChoosen() : Observable<any[]> {
@@ -113,7 +116,10 @@ export class SelectorRoomPage {
     console.log(data);
     if(data.status == "true"){
       console.log("selected");
-      this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, winningpic: data , staticRoom : this.staticRoom});
+      if(!this.odprlo){
+        this.odprlo = true;
+        this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, winningpic: data , staticRoom : this.staticRoom});
+      }
     }else if(data.status == "false"){
       console.log("not selceted");
     }else if(data.status == "error"){

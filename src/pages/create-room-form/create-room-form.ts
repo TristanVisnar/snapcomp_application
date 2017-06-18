@@ -20,8 +20,11 @@ export class CreateRoomFormPage {
   public user1;
   public creationData;
   public suggArray: Suggestion[] = [];
+  public staticRoom;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.user1 = navParams.get("user1");
+    this.staticRoom=this.navParams.get("staticRoom");
   }
 
   ionViewDidLoad() {
@@ -70,7 +73,7 @@ export class CreateRoomFormPage {
               //this.creationData = new RoomData(name, idcreator, privroom, nsfwroom, pass);
               //this.user1 = new User(result.ID, result.ACCNAME, result.USERNAME, result.NUMOFPOSTS, result.NUMOFWINS, result.ROLE);
               //console.log("THe show must stop");
-              this.navCtrl.push(ThemeSelectPage, {roomdata: this.creationData, suggArray: this.suggArray, user1: this.user1});
+              this.navCtrl.push(ThemeSelectPage, {roomdata: this.creationData, suggArray: this.suggArray, user1: this.user1, staticRoom: this.staticRoom});
           },
           Error => console.log("Suggestion retrieve error")
         );

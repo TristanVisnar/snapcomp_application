@@ -21,9 +21,11 @@ export class BrowseroomsPage {
   public results: Array<Object>;
   public user1;
   public Rdata;
+  public staticRoom;
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public json: Jsonp)
   {
       this.user1 = navParams.get("user1");
+      this.staticRoom=this.navCtrl.id;
   }
 
   ionViewDidLoad() {
@@ -43,6 +45,7 @@ export class BrowseroomsPage {
       .subscribe(result => {
         //console.log(result);
         this.Rdata = result.ROOMINFO;
+                     /////////////////////////////////
         //console.log("BROWSERDIRECT: "+JSON.stringify(result.ROOMINFO));
         this.redirectVroom(result.ROOMINFO, result.sessionInfo );
         console.log("Session INfo: "+JSON.stringify(result));
@@ -53,7 +56,7 @@ export class BrowseroomsPage {
   redirectVroom(ROOMINFO,sessionInfo){
       //console.log("Redirekting to PAGEROOM");
       //console.log(sessionInfo);
-      this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: sessionInfo, roomInfo: ROOMINFO });
+      this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: sessionInfo, roominfo: ROOMINFO , staticRoom : this.staticRoom});
   }
   getSessionID(roomID){
 

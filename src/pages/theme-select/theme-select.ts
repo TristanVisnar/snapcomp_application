@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, Jsonp } from '@angular/http';
 import { AlertController } from 'ionic-angular';
 import {RoomPage} from "../room/room";
+import { Observable } from 'rxjs';
+import { Response } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 /**
  * Generated class for the ThemeSelectPage page.
@@ -24,23 +27,47 @@ export class ThemeSelectPage {
   public activeSuggestion;
   public selectionID;
   public winningpic;
+  public sessInfo;
+  public ROOMINFO;
+  public staticRoom;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public http: Http, public alertCtrl: AlertController) {
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
+    this.sessInfo = this.navParams.get("sessionInfo");
+    this.ROOMINFO = this.navParams.get("roominfo");
+    this.staticRoom = this.navParams.get("staticRoom");
+
+    console.log("Gamemode 2");
+
     if(this.navParams.get("suggArray"))
       this.suggestionArray = this.navParams.get("suggArray");
-    else
+    else{
+      console.log("suggArray je nastavljen");
       this.getSuggestionData();
+    }
     if(this.navParams.get("winningpic")){
       this.winningpic = this.navParams.get("winningpic");
     }
     //console.log("Suggestion array: "+this.suggestionArray);
+
+    console.log(this.navCtrl.getActive());
+
+
+    let prev = this.navCtrl.getPrevious();
+    if(prev != this.staticRoom){
+      console.log("in remove");
+    }
+
   }
+
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ThemeSelectPage');
   }
+
   changeSuggestion(newSuggestion){
     this.activeSuggestion = newSuggestion;
 
@@ -91,19 +118,39 @@ export class ThemeSelectPage {
       userOrSugg: userOR,
       ID_POSTER: selectID
     };
-    console.log(JSON.stringify(jsonString));
-    this.http.post(url, JSON.stringify(jsonString))
-      .map(response => response.json())
-      .subscribe(result => {
-            //console.log("RESULTID: "+ JSON.stringify(this.Rdata));
-            this.createSession(duration,this.user1.ID,this.Rdata.roomID,result.ID);
-            //create session
-            //redirect user to room
-            //this.navCtrl.push(ThemeSelectPage, {roomdata: this.creationData, suggArray: this.suggArray, user1: this.user1});
-        },
-        Error => console.log("SessionCreation error"+Error)
-      );
+
+    this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ this.sessInfo.ID+"/0/").subscribe(()=>{
+      this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/timer/setTime/"+ this.sessInfo.ID +"/").subscribe(()=>{
+        console.log(JSON.stringify(jsonString));
+        this.http.post(url, JSON.stringify(jsonString))
+          .map(response => response.json())
+          .subscribe(result => {
+                //console.log("RESULTID: "+ JSON.stringify(this.Rdata));
+                if(this.sessInfo.ID){
+                  this.updateSession(duration,this.user1.ID,this.Rdata.roomID,result.ID);
+                }
+                else{
+                  this.createSession(duration,this.user1.ID,this.Rdata.roomID,result.ID);
+                }
+                //create session
+                //redirect user to room
+                //this.navCtrl.push(ThemeSelectPage, {roomdata: this.creationData, suggArray: this.suggArray, user1: this.user1});
+            },
+            Error => console.log("SessionCreation error"+Error)
+          );
+      });
+    });
   }
+
+
+
+  themeIsChoosen() : Observable<any[]> {
+    return Observable.interval(1000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/isThemeSet/'+ this.sessInfo.ID +'/')
+     .map((res:Response) => res.json())
+   );
+ }
+
+
   createSession(duration,idselector,idroom,idsugg){
     var url1: string;
     url1 = "http://164.8.230.124/tmp/snapcomp/api.php/rooms/createSession";
@@ -129,10 +176,35 @@ export class ThemeSelectPage {
             //redirect user to room
             //this.navCtrl.push(ThemeSelectPage, {roomdata: this.creationData, suggArray: this.suggArray, user1: this.user1});
         },
-        Error => console.log("Room creation Error")
+        Error => console.log("Room creation Error1")
       );
   }
 
+updateSession(duration,idselector,idroom,idsugg){
+  var url1: string;
+  url1 = "http://164.8.230.124/tmp/snapcomp/api.php/rooms/updateSession";
+  //SESSION_DURATION, ID_SELECTOR, ID_ROOM, ID_SUGGGESTION
+  var jsonString: any;
+  jsonString = {
+    SESSION_DURATION: duration,
+    ID_SELECTOR: idselector,
+    ID_ROOM: idroom,
+    ID_SUGGESTION: idsugg
+  };
+
+  this.http.post(url1, JSON.stringify(jsonString))
+    .map(response => response.json())
+    .subscribe(
+      data => {if(data.status == "done"){
+        console.log(this.sessInfo);
+        this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: this.ROOMINFO , sessionInfo: this.sessInfo, staticRoom : this.staticRoom});
+      }},
+      Error => console.log("Session update Error")
+    );
+}
+
+
+//doda igralca v sejo
   addUserToSession(seja){
     var url: string;
     console.log(this.user1.ID);
@@ -155,7 +227,7 @@ export class ThemeSelectPage {
   redirectVroom(sessionInfo){
       //console.log("Redirekting to PAGEROOM");
       //console.log(sessionInfo);
-      this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: sessionInfo});
+      this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: this.ROOMINFO, sessionInfo: sessionInfo, staticRoom : this.staticRoom});
   }
 
   getSuggestionData(){

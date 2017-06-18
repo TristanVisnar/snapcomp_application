@@ -20,7 +20,7 @@ export class MainMenuPage {
   //username = '';
   //accname = '';
   public logUser;
-
+  public staticRoom;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthServiceProvider) {
@@ -28,6 +28,7 @@ export class MainMenuPage {
     this.username = info['USERNAME'];
     this.accname = info['ACCNAME'];*/
     this.logUser = navParams.get("loggedUser");
+    this.staticRoom=this.navCtrl.id;
   }
 
 /*  public logout() {
@@ -47,6 +48,6 @@ export class MainMenuPage {
 
   redirectCreate()
   {
-    this.navCtrl.push(CreateRoomFormPage, {user1: this.logUser});
+    this.navCtrl.push(CreateRoomFormPage, {user1: this.logUser, staticRoom: this.staticRoom});
   }
 }

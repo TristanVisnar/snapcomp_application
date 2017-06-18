@@ -16,14 +16,14 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="bgc">
   <div>
-    <h3 style="width: 50%; margin: 0 auto;">Current Theme: {{ROOMINFO.THEME}}</h3>
+    <h3 style="width: 50%; margin: 0 auto; color:white">Current Theme: {{ROOMINFO.THEME}}</h3>
   </div>
 
   <ion-list *ngIf="isSet(dataItem.users)">
-    <span  *ngFor="let user of dataItem.users" ion-item>
-      <b>Username: </b><span class="labelStyle">{{user.USERNAME}}<ion-icon *ngIf="isSelector(user.USERNAME)" style="margin-left:5px" name="eye"></ion-icon></span><b>Points: </b><span style="labelStyle">6</span>
+    <span *ngFor="let user of dataItem.users" ion-item class="bgc">
+      <b style="color:white">Username: </b><span style="color:white" class="labelStyle">{{user.USERNAME}}<ion-icon *ngIf="isSelector(user.USERNAME)" style="margin-left:5px" name="eye"></ion-icon></span><b style="color:white">Points: </b><span style="labelStyle"><font color="white">6</font></span>
     </span>
     <!--<span ion-item>
       <font color="#418be0"><b>Username: </b><span class="labelStyle">Kevin123</span><b>Points: </b><span style="labelStyle">4</span></font>
@@ -31,21 +31,18 @@
     <span ion-item>
       <b>Username: </b><span class="labelStyle">Tristan123</span><b>Points: </b><span style="labelStyle">1</span>
     </span>-->
-</ion-list>
-  <!-- ENOUGH PLAYERS -->
-  <div >
-
-      <img *ngIf="isSet(base64Image)" src="data:image/png;base64,{{base64Image}}" class="photo" />
-    <button type="button" ion-button round color="default" (click)="pic()">Take picture&nbsp;&nbsp;<ion-icon name="aperture"></ion-icon></button>
-    <button *ngIf="isSet(base64Image)" type="button" ion-button round color="default" (click)="posljiSliko()">Commit picture&nbsp;&nbsp;<!--<ion-icon name="aperture"></ion-icon>--></button>
+  </ion-list>
+  <div style="text-align:center">
+    <img *ngIf="isSet(base64Image)" src="data:image/png;base64,{{base64Image}}" class="photo" />
+    <button style="background-color: #f2a643; color:black; width:200px;" type="button" ion-button round color="default" (click)="pic()">Take picture&nbsp;&nbsp;<ion-icon name="aperture"></ion-icon></button><br>
+    <button style="background-color: #f2a643; color:black; width:200px;" *ngIf="isSet(base64Image)" type="button" ion-button round color="default" (click)="posljiSliko()">Commit picture&nbsp;&nbsp;<ion-icon name="ios-cloud-upload-outline"></ion-icon></button><br>
+    <button style="background-color: #f2a643; color:black; width:200px;" type="button" ion-button round color="default" (click)="finishSession()">Finish Session&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button><br>
     <span *ngIf="isSet(feedback)">{{feedback}}</span>
-    <button type="button" ion-button round color="default" (click)="finishSession()">Finish Session</button>
-    <timer #timer [timeInSeconds]='time'></timer>
+    <hr>
+    <button style="background-color: #f2a643; color:black; width:200px;" type="button" ion-button round color="default" (click)="leaveSession()">Leave Session&nbsp;&nbsp;<ion-icon name="md-log-out"></ion-icon></button>
   </div>
 
-  <!-- NOT ENOUGH PLAYERS
-  <div *ngIf="!enoughPlayers()">
-    <i>Waiting for more players...</i>
-  </div>-->
+    <timer #timer [timeInSeconds]='time'></timer>
+
 
 </ion-content>

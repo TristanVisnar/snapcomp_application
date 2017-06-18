@@ -38,7 +38,7 @@ export class BrowseroomsPage {
   enterRoom(roomID){
     var url: string;
     //console.log(this.user1.ID);
-    url = "http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionViaRoomID/"+roomID+"/"+this.user1.ID+"/";
+    url = "http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionViaRoomID/"+roomID+"/"+this.user1.ID;
     console.log(url);
     this.http.get(url)
       .map(response => response.json())
@@ -60,5 +60,11 @@ export class BrowseroomsPage {
   }
   getSessionID(roomID){
 
+  }
+
+  randomNumber() : Number
+  {
+    var n = Math.floor(Math.random()*10+1);
+    return n;
   }
 }

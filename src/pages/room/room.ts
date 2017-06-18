@@ -8,11 +8,11 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs';
 import { Response } from '@angular/http';
 import { sessionData } from './room-data';
-
+import { BrowseroomsPage } from '../browserooms/browserooms';
 //TIMER
 import {ViewChild} from '@angular/core';
 import { TimerComponent } from './timer';
-
+import { AlertController } from 'ionic-angular';
 /**
  * Generated class for the RoomPage page.
  *
@@ -66,7 +66,9 @@ public num_of_players:number;
   //TIMER
   @ViewChild(TimerComponent) timer: TimerComponent;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public camera: Camera, public http: Http, public json: Jsonp) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public camera: Camera, public http: Http, public json: Jsonp,
+              public alertCtrl: AlertController) {
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
     this.sessInfo = this.navParams.get("sessionInfo");
@@ -96,13 +98,33 @@ public num_of_players:number;
     console.log(this.Rdata);
     console.log(this.user1);
     console.log(this.sessInfo);
+    */
     console.log("STRINGS______________________");
     console.log(JSON.stringify(this.Rdata));
     console.log(JSON.stringify(this.user1));
-    console.log(JSON.stringify(this.sessInfo));*/
+    console.log(JSON.stringify(this.sessInfo));
     this.start();
   }
 
+  leaveSession(){
+    this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/leaveSession/"+this.sessInfo.ID+"/"+this.user1.ID)
+    .subscribe(
+      result =>
+        {
+          this.navCtrl.push(BrowseroomsPage, {user1: this.user1})
+          //unsub from getdata, nevem kako
+        },
+      error =>
+        {
+          let alert = this.alertCtrl.create({
+              title: 'Warning!',
+              subTitle: 'Unable to leave session, try again later!',
+              buttons: ['OK']
+          });
+          alert.present();
+        }
+    );
+  }
 
   isSet(obj){
     if(!obj){

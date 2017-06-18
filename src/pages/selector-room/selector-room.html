@@ -13,19 +13,19 @@
 </ion-header>
 
 
-<ion-content align="center" padding>
+<ion-content align="center" padding class="bgc">
   <!--<ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>-->
 
 
-  <ion-card *ngFor="let result of slike" (click)="setFocus(this)" (dblclick)="submitPic(result.ID)" height>
+  <ion-card class="bgc" *ngFor="let result of slike" (click)="setFocus(this)" (dblclick)="submitPic(result.ID)" height>
     <img src="data:image/png;base64,{{result.CONTENT}}" class="photo" />
     <ion-card-content>
 
     </ion-card-content>
   </ion-card>
-  <span *ngIf="isSet(feedback)">{{feedback}}</span>
+  <span style="color:white" *ngIf="isSet(feedback)">{{feedback}}</span>
 
   <!--<ion-card>
     <ion-card-title>

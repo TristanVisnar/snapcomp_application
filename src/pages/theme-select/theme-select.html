@@ -13,30 +13,30 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="bgc">
 
-    <ion-item>
-     <ion-label stacked>Type in the theme for the next round:</ion-label>
-     <ion-input #TypedSuggestion value="" type="text"></ion-input>
+    <ion-item class="bgc">
+     <ion-label style="color:white" stacked>Type in the theme for the next round:</ion-label>
+     <ion-input style="color:white" #TypedSuggestion value="" type="text"></ion-input>
     </ion-item>
 
-  <ion-item>
-    <ion-label stacked>Or choose one from the list:</ion-label>
-    <ion-select #selectedSuggestion value="">
+  <ion-item class="bgc">
+    <ion-label stacked style="color:white">Or choose one from the list:</ion-label>
+    <ion-select style="color:white" #selectedSuggestion value="">
       <ion-option *ngFor="let sug of suggestionArray">
         {{sug.INFO}}
       </ion-option>
     </ion-select>
   </ion-item>
 
-  <ion-item>
-    <ion-label stacked>Session Duration (s):</ion-label>
-    <ion-input #duration type="number"></ion-input>
+  <ion-item class="bgc">
+    <ion-label style="color:white" stacked>Session Duration (s):</ion-label>
+    <ion-input style="color:white" #duration type="number"></ion-input>
   </ion-item>
 
   <br>
 
-  <button (click)="redirectToRoom(selectedSuggestion.value, TypedSuggestion.value, duration.value)" type="button" ion-button round color="default">Confirm&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
+  <button style="background-color: #f2a643; color:black;" (click)="redirectToRoom(selectedSuggestion.value, TypedSuggestion.value, duration.value)" type="button" ion-button round color="default">Confirm&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
 
 
   <ion-card *ngIf="isSet(winningpic)">

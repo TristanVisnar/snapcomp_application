@@ -30,12 +30,12 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="bgc">
   <ion-list>
 
-    <ion-item>
-      <ion-label style="width:148px" >Room Name:</ion-label>
-      <ion-input #roomname type="text" value=""></ion-input>
+    <ion-item class="bgc">
+      <ion-label style="width:148px" style="color:white">Room Name:</ion-label>
+      <ion-input style="color:white" #roomname type="text" value=""></ion-input>
     </ion-item>
 
     <!--<ion-item>
@@ -43,32 +43,32 @@
       <ion-input type="number" #dur></ion-input>
     </ion-item>-->
 
-    <ion-item>
-       <ion-label>Room Type:</ion-label>
-       <ion-select #type>
+    <ion-item class="bgc">
+       <ion-label style="color:white">Room Type:</ion-label>
+       <ion-select style="color:white" #type>
          <ion-option name="SFW" value="0">Safe For Work (SFW)</ion-option>
          <ion-option type name="NSFW" value="1">Not Safe For Work (NSFW)</ion-option>
          <!--<ion-option name="ANY" value="any">Any</ion-option>-->
        </ion-select>
      </ion-item>
 
-     <ion-item>
-        <ion-label>Room Protection:</ion-label>
-        <ion-select #prot>
+     <ion-item class="bgc">
+        <ion-label style="color:white">Room Protection:</ion-label>
+        <ion-select style="color:white" #prot>
           <ion-option name="PUBLIC" value="0">Public</ion-option>
           <ion-option name="PRIVATE" id="PRIVATE" ng-model="selected" value="1">Private</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item>
-        <ion-label style="width:148px">Password: </ion-label>
-        <ion-input #pass id="PASS" type="password" disabled="false"></ion-input>
+      <ion-item class="bgc">
+        <ion-label style="width:148px" style="color:white">Password: </ion-label>
+        <ion-input style="color:white" #pass id="PASS" type="password" disabled="false"></ion-input>
       </ion-item>
 
   </ion-list>
 
-  <button (click)="createRoom(roomname.value, idcreator.value, type.value, prot.value, pass.value)" ion-button color="default">Create Room&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
-  <ion-item>
-    <ion-input #idcreator hidden="true" type="number" value="{{user1.ID}}"></ion-input>
+  <button style="background-color: #f2a643; color:black;" (click)="createRoom(roomname.value, idcreator.value, type.value, prot.value, pass.value)" ion-button color="default">Create Room&nbsp;&nbsp;<ion-icon name="md-checkmark"></ion-icon></button>
+  <ion-item hidden="true">
+    <ion-input style="color:white"  #idcreator hidden="true" type="number" value="{{user1.ID}}"></ion-input>
   </ion-item>
 </ion-content>

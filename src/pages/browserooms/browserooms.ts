@@ -58,4 +58,10 @@ export class BrowseroomsPage {
   getSessionID(roomID){
 
   }
+
+  randomNumber() : Number
+  {
+    var n = Math.floor(Math.random()*10+1);
+    return n;
+  }
 }

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, OnDestroy, Input } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { SelectorRoomPage } from '../selector-room/selector-room';
+import { ThemeSelectPage } from '../theme-select/theme-select';
 import { Http, Jsonp } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs';
@@ -57,8 +58,11 @@ public num_of_players:number;
   public user1;
   public sessInfo;
   public ROOMINFO;
+  public sessionLength:number = 60;
+  public time = this.sessionLength;
   //public base64Data:string;
-
+  public staticRoom;
+  public firstTime: boolean = true;
   //TIMER
   @ViewChild(TimerComponent) timer: TimerComponent;
 
@@ -68,15 +72,25 @@ public num_of_players:number;
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
     this.sessInfo = this.navParams.get("sessionInfo");
-    this.ROOMINFO = this.navParams.get("roomInfo");
+    this.ROOMINFO = this.navParams.get("roominfo");
+    this.staticRoom = this.navParams.get("staticRoom");
     //console.log("Ustvari class");
-    console.log("STRINGS______________________");
-    console.log(JSON.stringify(this.Rdata));
-    console.log(JSON.stringify(this.user1));
-    console.log(JSON.stringify(this.sessInfo));
-    console.log("Theme: "+JSON.stringify(this.ROOMINFO.THEME));
+    console.log("Gamemode 0");
     this.startingInfo();
-    this.start();
+
+    console.log("Rdata:  " + this.navParams.get("roomdata"));
+    console.log("user1:  " +this.navParams.get("user1"));
+    console.log("sessInfo:  "+this.navParams.get("sessionInfo"));
+    console.log("roominfo:  "+this.navParams.get("roominfo"));
+    console.log("staticRoom:  "+this.navParams.get("staticRoom"));
+
+
+    console.log(this.navCtrl.getActive());
+
+    if(this.navCtrl.getPrevious() != this.staticRoom){
+      this.navCtrl.getPrevious()._destroy;
+    }
+
   }
 
   ionViewDidLoad() {
@@ -89,6 +103,7 @@ public num_of_players:number;
     console.log(JSON.stringify(this.Rdata));
     console.log(JSON.stringify(this.user1));
     console.log(JSON.stringify(this.sessInfo));
+    this.start();
   }
 
   leaveSession(){
@@ -156,24 +171,72 @@ public num_of_players:number;
 
   startingInfo(){
     this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/rooms/sessionData/'+ this.sessInfo.ID +'/')
-     .map((res:Response) => res.json()).subscribe(data => {this.assignSessionData(data);})
+     .map((res:Response) => res.json()).subscribe(data => {console.log(data);this.assignSessionData(data);})
 
     this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/timer/getStart/'+ this.sessInfo.ID +'/')
-     .map((res:Response) => res.json()).subscribe(data => {
-       if(data.GAMESTATE==0){
-         if(200 - data.TIMEGOING>60){
-           this.timer.timeInSeconds = 200 - 60 - data.TIMEGOING;
-         }
-         else{
-           //premakni v view za zbiranje slik;
-         }
-       }
-     });
+     .map((res:Response) => res.json()).subscribe(data => {this.setTimer(data)});
    }
+
+
+
+   enoughPlayers(){
+     if(this.dataItem.users && this.dataItem.users.length > 2){
+       return true;
+     }
+     else{
+       return false;
+     }
+   }
+
+   checkEnd(data:any){
+      console.log(data);
+      if(data.status == "true"){
+        console.log("selected");
+        this.navCtrl.push(ThemeSelectPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO, winningpic: data ,staticRoom : this.staticRoom});
+      }else if(data.status == "false"){
+        console.log("not selceted");
+      }else if(data.status == "error"){
+        console.log("error in prepare statement");
+      }else{
+        console.log("error in calling");
+      }
+  }
+
+
+
+   setTimer(data:any){
+     if(data.GAMESTATE==0){
+       if(data.TIMEGOING<this.sessionLength){
+         if(this.firstTime){
+           this.time = data.TIMEGOING;
+           this.timer.setTimerRemaingTime(this.sessionLength-data.TIMEGOING)
+           this.firstTime = false;
+        }
+       }
+       else{
+         console.log("Konec seje slikanja -> seja izbire");
+         //this.setNewGamemode();
+         this.http.get("http://164.8.230.124/tmp/snapcomp/api.php/rooms/changeGamemode/"+ this.sessInfo.ID+"/1/").subscribe(()=>{
+          this.navCtrl.push(SelectorRoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO ,staticRoom : this.staticRoom});}
+        );
+       }
+     }
+     //da te na izbor slik
+     else if(data.GAMESTATE == 1){
+       this.navCtrl.push(SelectorRoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO ,staticRoom : this.staticRoom});
+     }
+     //da te na izbor teme in zmagovalne slike
+     else if(data.GAMESTATE == 2){
+       this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/images/2/'+ this.sessInfo.ID +'/')
+        .map((res:Response) => res.json()).subscribe(data => this.checkEnd(data))
+     }
+   }
+
 
 
   start(){
     this.getData().subscribe(data => {this.assignSessionData(data)});
+    this.checkEndOfSession().subscribe(data => {this.setTimer(data)});
   }
 
   // Uses http.get() to load a single JSON file
@@ -182,6 +245,19 @@ public num_of_players:number;
       .map((res:Response) => res.json())
     );
   }
+
+  checkEndOfSession() : Observable<any[]> {
+    return Observable.interval(1000).flatMap(() => this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/timer/getStart/'+ this.sessInfo.ID +'/')
+     .map((res:Response) => res.json())
+   );
+ }
+
+  setStart() { this.http.get('http://164.8.230.124/tmp/snapcomp/api.php/timer/getStart/'+ this.sessInfo.ID +'/')
+     .map((res:Response) => res.json())
+  ;}
+
+
+
 
 /*
   getData(){
@@ -207,7 +283,7 @@ public num_of_players:number;
   }
 
   finishSession(){
-      this.navCtrl.push(SelectorRoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO});
+      this.navCtrl.push(SelectorRoomPage, {roomdata: this.Rdata, user1: this.user1, sessionInfo: this.sessInfo, roominfo: this.ROOMINFO , staticRoom : this.staticRoom});
   }
   posljiSliko(){
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -224,6 +300,13 @@ public num_of_players:number;
     setTimeout(() => {
       this.timer.startTimer();
     }, 1000)
+
+
   }
+
+  synch(){
+
+  }
+
 
 }

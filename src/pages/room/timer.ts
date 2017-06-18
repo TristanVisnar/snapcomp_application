@@ -9,6 +9,7 @@ import { ITimer } from '../../Timer_Interface';
 export class TimerComponent {
 
     @Input() timeInSeconds: number;
+    //public timeInSeconds: number;
     public timer: ITimer;
 
     constructor(
@@ -77,6 +78,10 @@ export class TimerComponent {
         minutesString = (minutes < 10) ? "0" + minutes : minutes.toString();
         secondsString = (seconds < 10) ? "0" + seconds : seconds.toString();
         return hoursString + ':' + minutesString + ':' + secondsString;
+    }
+
+    setTimerRemaingTime(timeRemaining){
+      this.timer.secondsRemaining = timeRemaining;
     }
 
 }

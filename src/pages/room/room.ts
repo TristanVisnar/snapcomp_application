@@ -59,7 +59,7 @@ public num_of_players:number;
   public sessInfo;
   public ROOMINFO;
   public sessionLength:number = 120;
-  public time = this.sessionLength;
+  public time = 120;
   //public base64Data:string;
   public staticRoom;
   public firstTime: boolean = true;
@@ -76,6 +76,7 @@ public num_of_players:number;
                 console.log(this.navParams.get("sessionInfo"));
                 console.log(this.navParams.get("roominfo"));
                 console.log(this.navParams.get("staticRoom"));
+    this.firstTime =true;
     this.Rdata = this.navParams.get("roomdata");
     this.user1 = this.navParams.get("user1");
     this.sessInfo = this.navParams.get("sessionInfo");
@@ -89,13 +90,16 @@ public num_of_players:number;
     this.staticRoom = this.navParams.get("staticRoom");
     //console.log("Ustvari class");
     console.log("Gamemode 0");
-    this.startingInfo();
+
 
     console.log(this.navParams.get("roomdata"));
     console.log(this.navParams.get("user1"));
     console.log(this.navParams.get("sessionInfo"));
     console.log(this.navParams.get("roominfo"));
     console.log(this.navParams.get("staticRoom"));
+
+    this.startingInfo();
+    this.start();
 
 /*
     console.log(this.navCtrl.getActive());
@@ -116,7 +120,7 @@ public num_of_players:number;
     console.log(JSON.stringify(this.Rdata));
     console.log(JSON.stringify(this.user1));
     console.log(JSON.stringify(this.sessInfo));
-    this.start();
+
   }
 
   getRoomID(){

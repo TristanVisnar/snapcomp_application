@@ -250,6 +250,7 @@ updateSession(duration,idselector,idroom,idsugg,info){
             this.ROOMINFO = result;
             this.ROOMINFO.ROOMINFO.THEME = info;
             this.ROOMINFO.ROOMINFO.ID_THEME = idsugg;
+			this.odprlo = true;
             this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: this.ROOMINFO , sessionInfo: this.sessInfo, staticRoom : this.staticRoom});
         });
 
@@ -291,7 +292,7 @@ updateSession(duration,idselector,idroom,idsugg,info){
             var data= sessionInfo;
 
           var session = {ID: ID};
-
+		  this.odprlo = true;
           this.navCtrl.push(RoomPage, {roomdata: this.Rdata, user1: this.user1, roominfo: data, sessionInfo: session, staticRoom : this.staticRoom});
         });
       });

@@ -10,10 +10,10 @@
 </style>
 
 <ion-card *ngIf="timer">
-  <ion-item class="no-bottom-border item">
-      <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large full clear class="timer-button timer-text">{{timer.displayTime}}</button>
+  <ion-item style="background-color:#3a3a3a" class="no-bottom-border item">
+      <button style="color:white;" ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large full clear class="timer-button timer-text">{{timer.displayTime}}</button>
   </ion-item>
-  <ion-item class="no-bottom-border" *ngIf="timeInSeconds && timeInSeconds > 0">
+  <ion-item style="background-color:#3a3a3a" class="no-bottom-border" *ngIf="timeInSeconds && timeInSeconds > 0">
       <button ion-button icon-left clear color="danger" small (click)="initTimer()" item-left *ngIf="!timer.runTimer && (timer.hasStarted || timer.hasFinished) || timer.hasFinished">
           <ion-icon name="refresh"></ion-icon>
           Reset

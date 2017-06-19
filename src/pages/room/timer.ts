@@ -25,7 +25,7 @@ export class TimerComponent {
     }
 
     initTimer() {
-        if(!this.timeInSeconds) { this.timeInSeconds = 0; }
+        if(!this.timeInSeconds) { this.timeInSeconds = 120; }
 
         this.timer = <ITimer>{
             seconds: this.timeInSeconds,
